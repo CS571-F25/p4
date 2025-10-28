@@ -27,8 +27,10 @@ export default function Eventsubs() {
                     <h1>orbt eventsubs</h1>
                     <ul id="eventsubs-box">
                         {Object.entries(providers).map(([provider], i) => (
-                            <li key={i} onClick={() => setSelectedProvider(provider as keyof typeof providers)}>
-                                {provider}
+                            <li key={i}>
+                                <button onClick={() => setSelectedProvider(provider as keyof typeof providers)}>
+                                    {provider}
+                                </button>
                             </li>
                         ))}
                     </ul>
@@ -53,7 +55,7 @@ export default function Eventsubs() {
                     onChange={(e) => setWidgetPreview(e.target.value)}
                 />
                 <h2>Widget Preview</h2>
-                {widgetPreview && <iframe src={widgetPreview} />}
+                {widgetPreview && <iframe src={widgetPreview} title="Widget Preview" />}
             </div>
         </div>
     );
