@@ -3,6 +3,7 @@ import { cookies } from 'next/headers';
 
 import connect from '@/mongo/db';
 import WidgetUser from '@/mongo/models/WidgetUser';
+import WidgetUserType from '@/types/WidgetUserType';
 
 function generateID() {
     return Math.random().toString(36).substring(2, 14).toUpperCase();
@@ -35,11 +36,11 @@ export async function POST(request: Request) {
         return NextResponse.json({ error: 'Provider is required' }, { status: 400 });
     }
 
-    const userData = await WidgetUser.findOne({
+    const userData = (await WidgetUser.findOne({
         [`providers.${provider.provider}.id`]: provider.id,
     })
         .select('userId providers -_id')
-        .lean();
+        .lean()) as WidgetUserType | null;
 
     if (userData) {
         return NextResponse.json(

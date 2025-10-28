@@ -7,20 +7,23 @@ import { generateWithFormat } from '../utils/generateData';
 
 export async function POST(req: NextRequest) {
     const { service, subscriptionType } = await req.json();
+    const typedService = service as keyof typeof providers;
+    const typedSubscriptionType = subscriptionType as keyof (typeof providers)[typeof typedService]['eventsub'];
+
     if (!service || !subscriptionType) {
         return new NextResponse('Missing required fields', { status: 400 });
     }
 
-    const generalSubscription = providers[service].eventsub[subscriptionType]?.event;
-    if (!generalSubscription) {
+    let generalSubscription = providers[typedService].eventsub[typedSubscriptionType];
+    if (!('event' in generalSubscription)) {
         return new NextResponse('Invalid service or subscriptionType', { status: 400 });
     }
 
     let formatter: any = undefined;
 
     try {
-        const mod = await import(`@/types/events/${generalSubscription}.ts`);
-        formatter = mod[generalSubscription];
+        const mod = await import(`@/types/events/${generalSubscription.event}.ts`);
+        formatter = mod[generalSubscription.event];
     } catch {
         formatter = undefined;
     }

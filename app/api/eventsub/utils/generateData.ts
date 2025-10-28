@@ -42,7 +42,10 @@ export function generateData(service: keyof typeof providers, format: keyof type
     if (format.toString().includes('|')) return randomEl(format.split('|'));
 
     const generator = dataTypes[format];
-    return generator?.[service] ? generator[service]() : generator['default']();
+    if (service in generator && generator[service as keyof typeof generator]) {
+        return (generator[service as keyof typeof generator] as Function)();
+    }
+    return generator.default();
 }
 
 // take a formatter and generate data for all of the non-overridden fields

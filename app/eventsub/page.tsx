@@ -40,8 +40,8 @@ export default function Eventsubs() {
                     <h1>Selected Provider: {selectedProvider}</h1>
                     <p>click an event to test it</p>
                     {Object.entries(providers?.[selectedProvider]?.eventsub)?.map(([name], i) => (
-                        <p key={i} onClick={() => handleEventClick(name)}>
-                            {name}
+                        <p key={i}>
+                            <button onClick={() => handleEventClick(name)}>{name}</button>
                         </p>
                     ))}
                 </div>

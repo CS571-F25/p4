@@ -8,8 +8,15 @@ export default async function goalsUpdate(userId: string, service: string, subsc
     await connect();
     const goalsData: { [key: string]: any } = {};
 
+    const typedService = service as keyof typeof providers;
+    const typedSubscription = subscription as keyof (typeof providers)[keyof typeof providers]['eventsub'];
+
+    const eventSub = providers[typedService].eventsub[typedSubscription];
+    if (!eventSub || !('goals' in eventSub)) return goalsData;
+    const goals = eventSub.goals || [];
+
     await Promise.all(
-        providers[service].eventsub[subscription]?.goals?.map(async ({ name, value }: { name: string; value: any }) => {
+        goals.map(async ({ name, value }: { name: string; value: any }) => {
             if (typeof value === 'string' && event.data[value]) {
                 value = event.data[value];
             }
@@ -61,7 +68,9 @@ export default async function goalsUpdate(userId: string, service: string, subsc
                 { upsert: true, new: true }
             );
 
-            goalsData[name] = Object.fromEntries(Object.entries(goals.values).map(([key, { value }]) => [key, value]));
+            goalsData[name] = Object.fromEntries(
+                Object.entries(goals.values).map(([key, obj]) => [key, (obj as { value: number }).value])
+            );
             if (mock) goalsData[name].mockValue = mockValue;
         })
     );
