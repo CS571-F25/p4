@@ -1,0 +1,73 @@
+{
+    "twitch": {
+        "color": "#9580ff",
+        "scopes": [
+            "openid",
+            "user:read:email",
+            "user:read:chat",
+            "channel:read:ads",
+            "moderator:read:followers",
+            "channel:read:subscriptions",
+            "bits:read",
+            "channel:read:redemptions",
+            "channel:read:polls",
+            "channel:read:predictions",
+            "channel:bot"
+        ],
+        "eventsub": {
+            "stream.offline": { "version": "1", "event": "streamOffline", "endpoint": "goals/reset-session" },
+            "channel.follow": {
+                "version": "2",
+                "event": "follow",
+                "goals": [
+                    {
+                        "name": "follower",
+                        "value": 1
+                    }
+                ]
+            },
+            "channel.subscribe": {
+                "version": "1",
+                "event": "subscription",
+                "goals": [
+                    { "name": "subscription", "value": 1 },
+                    { "name": "partnerPlus", "value": "subPoints" }
+                ]
+            },
+            "channel.subscription.end": { "version": "1", "event": "subscriptionEnd" },
+            "channel.subscription.gift": {
+                "version": "1",
+                "event": "subscriptionGift",
+                "goals": [{ "name": "subscription", "value": 1 }]
+            },
+            "channel.subscription.message": {
+                "version": "1",
+                "event": "subscriptionMessage",
+                "goals": [
+                    { "name": "subscription", "value": 1 },
+                    { "name": "partnerPlus", "value": "subPoints" }
+                ]
+            },
+            "channel.cheer": { "version": "1", "event": "cheer", "goals": [{ "name": "cheer", "value": 1 }] },
+            "channel.raid": { "version": "1", "event": "raid" },
+            "channel.channel_points_custom_reward_redemption.add": { "version": "1", "event": "channelPointsRedemption" },
+            "channel.channel_points_automatic_reward_redemption.add": {
+                "version": "2",
+                "event": "channelPointsAutomaticRedemption"
+            },
+            "channel.chat.message": { "version": "1" },
+            "channel.chat.message_delete": { "version": "1" },
+            "channel.ad_break.begin": { "version": "1", "event": "adBreakBegin" },
+            "channel.poll.begin": { "version": "1", "event": "pollBegin" },
+            "channel.poll.progress": { "version": "1", "event": "pollProgress" },
+            "channel.poll.end": { "version": "1", "event": "pollEnd" },
+            "channel.prediction.begin": { "version": "1", "event": "predictionBegin" },
+            "channel.prediction.progress": { "version": "1", "event": "predictionProgress" },
+            "channel.prediction.end": { "version": "1", "event": "predictionEnd" },
+            "channel.hype_train.begin": { "version": "1", "event": "hypetrainBegin" },
+            "channel.hype_train.progress": { "version": "1", "event": "hypetrainProgress" },
+            "channel.hype_train.end": { "version": "1", "event": "hypetrainEnd" }
+        },
+        "goals": ["follower", "subscription", "cheer"]
+    }
+}

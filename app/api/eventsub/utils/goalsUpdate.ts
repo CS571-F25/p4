@@ -1,0 +1,70 @@
+import connect from '@/mongo/db';
+import WidgetGoal from '@/mongo/models/WidgetGoal';
+import providers from '@/data/providers.json';
+
+import { getWeekStart, getMonthStart } from './getTimestamp';
+
+export default async function goalsUpdate(userId: string, service: string, subscription: string, event: any, mock: boolean) {
+    await connect();
+    const goalsData: { [key: string]: any } = {};
+
+    await Promise.all(
+        providers[service].eventsub[subscription]?.goals?.map(async ({ name, value }: { name: string; value: any }) => {
+            if (typeof value === 'string' && event.data[value]) {
+                value = event.data[value];
+            }
+
+            const mockValue = value;
+            if (mock) value = 0; // do not edit goals for mock events
+
+            const now = new Date();
+            const weekStart = getWeekStart();
+            const monthStart = getMonthStart();
+
+            await WidgetGoal.updateMany(
+                { userId, provider: service, goalType: name },
+                [
+                    {
+                        $set: {
+                            'values.weekly.value': {
+                                $cond: [{ $lt: ['$values.weekly.lastReset', weekStart] }, 0, '$values.weekly.value'],
+                            },
+                            'values.weekly.lastReset': {
+                                $cond: [{ $lt: ['$values.weekly.lastReset', weekStart] }, now, '$values.weekly.lastReset'],
+                            },
+                        },
+                    },
+                    {
+                        $set: {
+                            'values.monthly.value': {
+                                $cond: [{ $lt: ['$values.monthly.lastReset', monthStart] }, 0, '$values.monthly.value'],
+                            },
+                            'values.monthly.lastReset': {
+                                $cond: [{ $lt: ['$values.monthly.lastReset', monthStart] }, now, '$values.monthly.lastReset'],
+                            },
+                        },
+                    },
+                ],
+                { upsert: true }
+            );
+
+            const goals = await WidgetGoal.findOneAndUpdate(
+                { userId, provider: service, goalType: name },
+                {
+                    $inc: {
+                        'values.total.value': value,
+                        'values.weekly.value': value,
+                        'values.monthly.value': value,
+                        'values.session.value': value,
+                    },
+                },
+                { upsert: true, new: true }
+            );
+
+            goalsData[name] = Object.fromEntries(Object.entries(goals.values).map(([key, { value }]) => [key, value]));
+            if (mock) goalsData[name].mockValue = mockValue;
+        })
+    );
+
+    return goalsData;
+}

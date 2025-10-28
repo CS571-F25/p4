@@ -1,0 +1,49 @@
+body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100svh;
+}
+
+#star-box {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  justify-content: center;
+  align-items: center;
+}
+
+.star {
+  color: var(--primary);
+  width: 32px;
+  height: 32px;
+
+  animation:
+    hover 2s ease-in-out infinite alternate,
+    rotate 8s linear infinite;
+}
+
+@keyframes hover {
+  from {
+    translate: 0 0;
+  }
+  to {
+    translate: 0 0.5rem;
+  }
+}
+
+@keyframes rotate {
+  from {
+    rotate: 0deg;
+  }
+  to {
+    rotate: 360deg;
+  }
+}
+
+h1 {
+  font-size: var(--text-md);
+  font-weight: 800;
+  user-select: none;
+}

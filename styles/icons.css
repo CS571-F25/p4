@@ -1,0 +1,173 @@
+#icons-page {
+    --size: 8rem;
+
+    padding: 2rem 0;
+}
+
+#icons-page.small-grid {
+    --size: 2rem;
+}
+
+#icons-page.small-grid .icon-item > .icon {
+    border: none;
+    width: fit-content;
+    padding: 0.5rem;
+}
+
+#icons-page.small-grid .icon-item :where(h2, .tags) {
+    display: none;
+}
+
+#icons-page.small-grid :where(.icon-item, .icon-item > .icon) {
+    padding: 0.2rem;
+}
+
+#icons-page.small-grid #icons-grid {
+    gap: calc(var(--size) / 2) var(--size);
+}
+
+#icons-page .header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+
+    width: 60%;
+    margin: 0 auto;
+    margin-bottom: 1rem;
+}
+
+#icons-page .header .tag:hover {
+    cursor: pointer;
+}
+
+#icons-page h1 {
+    font-size: var(--text-xl);
+    font-weight: 800;
+    color: var(--secondary);
+}
+
+#icons-page > h2 {
+    font-size: var(--text-md);
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+#icons-page p {
+    font-size: var(--text-sm);
+}
+
+.search-items.main {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+}
+
+.search-items {
+    width: 100%;
+}
+
+.tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+}
+
+#icons-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(var(--size), 1fr));
+    justify-items: center;
+    align-items: flex-start;
+
+    gap: 0 var(--size);
+    padding-bottom: 2rem;
+}
+
+.icon-item {
+    user-select: none;
+}
+
+.icon-item,
+.icon-item > .icon {
+    padding: 1rem;
+    width: fit-content;
+    transition:
+        background-color 0.2s ease-in-out,
+        color 0.2s ease-in-out;
+}
+
+.icon-item > .icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 2rem;
+    border: 2px solid var(--primary-dark);
+    color: var(--text);
+    width: calc(var(--size) + 2rem);
+}
+
+.icon-item:hover > .icon {
+    background-color: var(--primary-dark);
+    color: var(--bg);
+    cursor: pointer;
+}
+
+.icon-item svg {
+    width: var(--size);
+    height: var(--size);
+}
+
+.icon-item .tiny {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.icon-item .tiny svg {
+    --size: 2rem;
+}
+
+.icon-item h2 {
+    --name-size: var(--font-sm);
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.2rem;
+    width: 100%;
+
+    font-size: clamp(var(--text-xs), var(--name-size), var(--text-md));
+    white-space: nowrap;
+    font-weight: 600;
+
+    margin-top: 1rem;
+    text-align: center;
+
+    background-color: var(--primary);
+    color: var(--bg);
+    padding: 0.2rem 0.8rem;
+    padding-right: 0.2rem;
+    border-radius: 100vh;
+}
+
+@media (max-width: 1280px) {
+    #icons-page {
+        --size: 4rem;
+    }
+
+    #icons-page.small-grid {
+        --size: 2rem;
+    }
+    .icon-item h2 {
+        --name-size: var(--font-xs);
+    }
+
+    #icons-page .header {
+        width: 100%;
+    }
+}
