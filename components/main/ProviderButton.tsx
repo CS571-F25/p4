@@ -1,24 +1,25 @@
 'use client';
 import { useSession, signIn, signOut } from 'next-auth/react';
-
 import ProviderButtonCheck from '@/components/main/ProviderButtonCheck';
 
-export default async function SignIn({
+export default function ProviderButton({
     provider,
     color,
-    children,
+    onClick,
 }: {
     provider: string;
     color: string;
-    children?: React.ReactNode;
+    onClick?: () => void;
 }) {
+    if (!onClick) onClick = () => signIn(provider);
+    
     return (
         <button
             className={`provider-button`}
             style={{ '--provider-color': `${color}` } as React.CSSProperties}
-            onClick={() => signIn(provider)}
+            onClick={onClick}
         >
-            {provider}
+            <ProviderButtonCheck provider={provider} />
         </button>
     );
 }

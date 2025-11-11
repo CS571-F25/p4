@@ -3,7 +3,7 @@ import { auth } from '@/auth';
 
 import Svg from '@/components/Svg';
 
-export default function ClientTest({ provider }: { provider?: string }) {
+export default function ClientTest({ provider, onClick }: { provider?: string, onClick?: () => void }) {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const providerId = '';
 
@@ -35,10 +35,29 @@ export default function ClientTest({ provider }: { provider?: string }) {
         fetchProviders();
     }, []);
 
-    return (
+    let background = (
+        <div className="provider-badge-inactive"></div>
+    )
+    if (isLoggedIn) {
+        background = (
+            <Svg name="badge" className="provider-badge" />
+        )
+    }
+
+    let content = (
         <>
-            {isLoggedIn ? <Svg name="badge" className="provider-badge" /> : <div className="provider-badge-inactive"></div>}
+            {background}
             <Svg name={provider || ''} className="provider-icon" />
         </>
     );
+
+    if (onClick) {
+        return (
+            <button className="provider-button" onClick={onClick}>
+                {content}
+            </button>
+        );
+    }
+
+    return content;
 }
