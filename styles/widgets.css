@@ -1,0 +1,19 @@
+#widgets p {
+    font-size: 18px;
+    margin-bottom: 16px;
+}
+
+.widgets-box {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 24px;
+    margin-bottom: 48px;
+}
+
+.widget-card img {
+    border-radius: 16px;
+    width: 240px;
+    height: auto;
+}

@@ -1,9 +1,3 @@
-main {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
 #provider-container {
     display: flex;
     flex-direction: column;
@@ -29,35 +23,4 @@ main {
     padding: 1rem;
     background-color: var(--primary);
     color: var(--primary);
-}
-
-.provider-button {
-    position: relative;
-}
-
-.provider-icon svg {
-    position: relative;
-    z-index: 1;
-
-    width: 28px;
-    height: 28px;
-}
-
-.provider-badge-inactive,
-.provider-badge svg {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 0;
-
-    width: 48px;
-    height: 48px;
-}
-
-.provider-badge-inactive {
-    width: 42px;
-    height: 42px;
-    border-radius: 100vh;
-    background-color: var(--provider-color);
 }

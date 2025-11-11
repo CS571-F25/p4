@@ -1,0 +1,146 @@
+main:has(#provider-eventsubs) {
+    width: 100%;
+    max-width: calc(100vw - 4rem);
+}
+
+iframe {
+    background-color: white;
+    border: 2px solid var(--bg-dark);
+    border-radius: 1.5rem;
+    width: 100%;
+    height: 100%;
+}
+
+#provider-eventsubs {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    justify-content: center;
+    align-items: center;
+
+    width: 100%;
+}
+
+.eventsubs-provider-box, .eventsubs-provider-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+
+    border-radius: 1.5rem;
+    background-color: var(--text);
+    color: var(--bg-dark);
+    padding: 1rem;
+
+    height: 100vh;
+    max-height: calc(100vh - 8rem);
+    min-width: 300px;
+    flex: 1;
+}
+
+.eventsubs-provider-container {
+    flex-direction: row-reverse;
+    flex-wrap: wrap;
+
+    background-color: transparent;
+    padding: 0;
+}
+
+#widget-preview {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+
+    width: 100%;
+}
+
+#widget-preview-input-box {
+    display: flex;
+    flex-direction: row;
+    gap: 0.5rem;
+    width: 100%;
+}
+
+#widget-preview-input {
+    font-size: var(--text-xxs);
+    width: 100%;
+    border: 2px solid var(--bg-dark);
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    user-select: none;
+}
+
+#test-events {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    justify-content: center;
+    align-items: center;
+
+    background-color: transparent;
+}
+
+.event-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+
+    width: 100%;
+}
+
+#test-event-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 2rem 0.25rem 1.25rem 0.25rem;
+
+    height: 100%;
+    overflow-y: auto;
+}
+
+.event-button {
+    animation-timeline: view();
+    animation-name: pop;
+}
+
+#activity {
+    flex: 0.5;
+}
+
+@keyframes pop {
+    0%,
+    10%,
+    90%,
+    100% {
+        opacity: 0;
+        scale: 0.7;
+    }
+    20%,
+    80% {
+        opacity: 1;
+        scale: 1;
+    }
+}
+
+.event-button button {
+    border-radius: 100vh;
+    padding: 0.5rem 1rem;
+    font-size: var(--text-xxs);
+    white-space: nowrap;
+
+    background-color: var(--primary);
+    color: var(--bg-dark);
+}
+
+.event-button button.primary-button {
+    width: 100%;
+}
+
+@media (max-width: 1680px) {
+    .eventsubs-provider-container .eventsubs-provider-box {
+        /* height of a normal box, plus the padding, divided by 2 (two children) minus the gap*/
+        height: calc((100vh - 8rem + 2rem) / 2 - 1rem);
+    }
+}
