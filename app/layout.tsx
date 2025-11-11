@@ -2,12 +2,16 @@ import type { Metadata } from 'next';
 import '@/styles/globals.css';
 
 export const metadata: Metadata = {
-    title: 'widgets.bradydallama.com',
-    description: 'widget server',
+    title: 'orbt',
+    description: 'widget platform for content creators',
     icons: {
         icon: '/star.ico',
     },
 };
+
+import NavBar from '@/components/NavBar';
+import Logo from '@/components/Logo';
+import Footer from '@/components/Footer';
 
 export default function RootLayout({
     children,
@@ -17,8 +21,13 @@ export default function RootLayout({
     return (
         <html lang="en">
             <head />
-            <body className="antialiased">
-                <main className="min-h-screen">{children}</main>
+            <body className="antialiased min-h-screen">
+                <NavBar />
+                <main>
+                    <Logo />
+                    {children}
+                </main>
+                <Footer />
             </body>
         </html>
     );
