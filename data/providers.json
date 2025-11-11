@@ -55,8 +55,8 @@
                 "version": "2",
                 "event": "channelPointsAutomaticRedemption"
             },
-            "channel.chat.message": { "version": "1" },
-            "channel.chat.message_delete": { "version": "1" },
+            "channel.chat.message": { "version": "1", "event": "chatMessage" },
+            "channel.chat.message_delete": { "version": "1", "event": "chatMessageDelete" },
             "channel.ad_break.begin": { "version": "1", "event": "adBreakBegin" },
             "channel.poll.begin": { "version": "1", "event": "pollBegin" },
             "channel.poll.progress": { "version": "1", "event": "pollProgress" },
