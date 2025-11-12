@@ -2,7 +2,7 @@ export default function TextBlock({
     text,
     className,
 }: {
-    text: string | (string | string[])[];
+    text: any[];
     className?: string;
 }) {
     if (Array.isArray(text)) {
