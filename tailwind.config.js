@@ -1,9 +1,8 @@
-import { heroui } from '@heroui/react';
-
 export const colors = {
     bg: {
-        DEFAULT: '#234255',
+        DEFAULT: '#2b4b5f',
         dark: '#1A344A',
+        superdark: '#0D1A2B',
     },
     text: {
         DEFAULT: '#F3F3FF',
@@ -15,11 +14,7 @@ export const colors = {
 
 /** @type {import('tailwindcss').Config} */
 export default {
-    content: [
-        './components/**/*.{js,ts,jsx,tsx,mdx}',
-        './app/**/*.{js,ts,jsx,tsx,mdx}',
-        './node_modules/@heroui/theme/dist/**/*.{js,ts,jsx,tsx}',
-    ],
+    content: ['./components/**/*.{js,ts,jsx,tsx,mdx}', './app/**/*.{js,ts,jsx,tsx,mdx}'],
     theme: {
         extend: {
             fontFamily: {
@@ -27,24 +22,14 @@ export default {
                 mono: ['var(--font-geist-mono)'],
             },
             colors: {
-                'bg': colors.bg.DEFAULT,
+                bg: colors.bg.DEFAULT,
                 'bg-dark': colors.bg.dark,
-                'text': colors.text.DEFAULT,
-                'primary': colors.primary.DEFAULT,
+                'bg-superdark': colors.bg.superdark,
+                text: colors.text.DEFAULT,
+                primary: colors.primary.DEFAULT,
             },
         },
     },
     darkMode: 'class',
-    plugins: [
-        heroui({
-            themes: {
-                dark: {
-                    colors,
-                },
-                light: {
-                    colors,
-                },
-            },
-        }),
-    ],
+    plugins: [],
 };
