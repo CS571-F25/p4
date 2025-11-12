@@ -10,7 +10,7 @@ export default function Feature({
     imgSrc: string;
 }) {
     return (
-        <div className="feature" style={{ '--feature-index': i } as React.CSSProperties}>
+        <div className="feature" style={{ '--feature-index': i } as React.CSSProperties} tabIndex={0}>
             <h3>{title}</h3>
             <div className="feature-card">
                 <div className="feature-card-inner">
