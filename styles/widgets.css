@@ -14,6 +14,6 @@
 
 .widget-card img {
     border-radius: 16px;
-    width: 240px;
+    width: clamp(160px, 20vw, 240px);
     height: auto;
 }

@@ -21,7 +21,8 @@ iframe {
     width: 100%;
 }
 
-.eventsubs-provider-box, .eventsubs-provider-container {
+.eventsubs-provider-box,
+.eventsubs-provider-container {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -142,5 +143,11 @@ iframe {
     .eventsubs-provider-container .eventsubs-provider-box {
         /* height of a normal box, plus the padding, divided by 2 (two children) minus the gap*/
         height: calc((100vh - 8rem + 2rem) / 2 - 1rem);
+    }
+}
+
+@media (max-width: 640px) {
+    #provider-eventsubs {
+        flex-direction: column;
     }
 }
