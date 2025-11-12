@@ -10,7 +10,8 @@ export default function Feature({
     imgSrc: string;
 }) {
     return (
-        <div className="feature" style={{ '--feature-index': i } as React.CSSProperties} tabIndex={0}>
+        // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
+        <div className="feature" style={{ '--feature-index': i } as React.CSSProperties} tabIndex={0} role="button">
             <h3>{title}</h3>
             <div className="feature-card">
                 <div className="feature-card-inner">
