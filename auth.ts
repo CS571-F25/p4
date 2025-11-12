@@ -1,5 +1,6 @@
 import NextAuth from 'next-auth';
 import type { DefaultSession } from 'next-auth';
+import { cookies } from 'next/headers';
 import providers from '@/data/providers.json';
 import Twitch from 'next-auth/providers/twitch';
 
@@ -39,6 +40,18 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
                         expires: account.expires_at,
                     }),
                 }).then((res) => res.json());
+
+                if (response.userId) {
+                    const cookieStore = await cookies();
+                    cookieStore.set('userId', response.userId, {
+                        httpOnly: true,
+                        secure: process.env.NODE_ENV === 'production',
+                        sameSite: 'lax',
+                        path: '/',
+                        maxAge: 60 * 60 * 24 * 30,
+                    });
+                }
+
                 fetch(`${process.env.API}/eventsub/service/twitch/manage`, {
                     method: 'POST',
                     headers: {
@@ -63,6 +76,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         async session({ session, user, token }) {
             session.user.provider = token.provider as string | undefined;
             session.user.providerAccountId = token.providerAccountId as string | undefined;
+            console.log({ session });
             return session;
         },
     },
