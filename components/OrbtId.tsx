@@ -1,12 +1,22 @@
 'use client';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 import Clipboard from '@/components/Clipboard';
 import SVG from '@/components/Svg';
 
 export default function OrbtId({ color = 'dark', compact = false }: { color?: 'dark' | 'light'; compact?: boolean }) {
     const [hidden, setHidden] = useState(true);
-    const [orbtId, setOrbtId] = useState('123456789');
+    const [orbtId, setOrbtId] = useState('');
+
+    useEffect(() => {
+        fetch('/api/user?provider=orbtId')
+            .then((res) => res.json())
+            .then((data) => {
+                if (data.userId) {
+                    setOrbtId(data.userId);
+                }
+            });
+    }, []);
 
     function showOrbtId() {
         if (!hidden) return setHidden(true);
