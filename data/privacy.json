@@ -1,0 +1,42 @@
+{
+    "Overview": [
+        "This Privacy Policy explains how orbt.stream, operated by bradydallama LLC, collects, uses, and protects your information.",
+        "We value privacy and collect only what's necessary to power our widgets and integrations."
+    ],
+    "Information We Collect": [
+        "Twitch",
+        [
+            "When connecting Twitch, we may receive:",
+            [
+                "Twitch user ID, username, profile image, and email address",
+                "Subscriber, follower, Bits, Channel Points, poll, and prediction data",
+                "Basic channel statistics (follower count, subscription count, partner plus progress, bits count)"
+            ],
+            "We only store limited information required for widget functionality:",
+            ["Follower count", "Subscription count", "Partner Plus progress", "Bits count"],
+            "All other data is processed temporarily and not stored."
+        ]
+    ],
+    "Cookies": [
+        "We use one cookie to maintain a user's orbtId.",
+        "We do not use analytics, advertising, or third-party tracking cookies."
+    ],
+    "How We Use Data": [
+        "We may use data to:",
+        [
+            "Display real-time stats in widgets",
+            "Maintain account connections and session state",
+            "Improve reliability and performance"
+        ],
+        "We do not sell, share, or rent user data to third parties."
+    ],
+    "Data Retention and Deletion": [
+        "You can disconnect your Twitch account or delete your orbt.stream profile at any time.",
+        "Deleted profiles and stored data are permanently erased within a reasonable timeframe."
+    ],
+    "Changes to This Policy": [
+        "We may update this Privacy Policy periodically.",
+        "Significant changes will be announced via notice on the site."
+    ],
+    "Contact": ["For privacy or data deletion requests, please reach out in our Discord server."]
+}

@@ -1,0 +1,51 @@
+{
+    "Overview": [
+        "Welcome to orbt.stream, a service operated by bradydallama LLC (“we,” “our,” or “us”).",
+        "By accessing or using our website, widgets, or services (“Platform”), you agree to these Terms of Service (“Terms”).",
+        "If you do not agree, you may not use or access orbt.stream."
+    ],
+    "Eligibility": [
+        "You must comply with the Platform & Providers' Terms of Service and any other connected platform's rules."
+    ],
+    "Accounts and Connections": [
+        "You may connect your Provider accounts to use widgets or integrations.",
+        "When you connect, we receive certain Provider data authorized by you through Provider's API.",
+        "You are responsible for keeping your login credentials secure and for all activity under your account."
+    ],
+    "Use of Widgets": [
+        "You may use widgets provided on orbt.stream for personal or commercial streaming purposes.",
+        "You may not:",
+        [
+            "Resell, redistribute, or rehost widgets purchased or obtained through orbt.stream.",
+            "Reverse-engineer, modify, or misuse widgets or backend systems.",
+            "Use widgets for unlawful, harassing, defamatory, hateful, or Provider guideline-violating content."
+        ]
+    ],
+    "Payments and Purchases": [
+        "orbt.stream currently offers paid widgets and free platform access.",
+        "Payments for widgets are processed by Etsy, and are subject to their terms and policies.",
+        "Terms of widget purchases, including refunds, are listed in greater detail on the Etsy shop pages."
+    ],
+    "Service Availability": [
+        "We aim to maintain reliable uptime but do not guarantee uninterrupted service.",
+        "We may modify, suspend, or discontinue any part of the Platform without notice.",
+        "We are not liable for downtime, Provider API changes, or resulting loss of income, data, or performance."
+    ],
+    "Intellectual Property": [
+        "All content, including widget code, design, and branding, is owned by bradydallama LLC.",
+        "Users retain ownership of their Provider content but grant us a limited license to display or process it for widget functionality."
+    ],
+    "Termination": [
+        "You may disconnect your Provider accounts or delete your profile at any time.",
+        "We may suspend or terminate users who violate these Terms or misuse the Platform."
+    ],
+    "Limitation of Liability": [
+        "To the fullest extent permitted by law, orbt.stream and bradydallama LLC are not liable for indirect, incidental, or consequential damages.",
+        "Your sole remedy for dissatisfaction is to stop using the Platform."
+    ],
+    "Changes to Terms": [
+        "We may update these Terms at any time.",
+        "Continued use of orbt.stream after updates constitutes acceptance of the new Terms."
+    ],
+    "Contact": ["For any questions, please reach out in our Discord server."]
+}

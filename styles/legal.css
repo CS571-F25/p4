@@ -1,0 +1,41 @@
+
+
+.legal-page {
+    font-size: var(--text-xs);
+}
+
+.legal-page h1 {
+    font-size: var(--text-md);
+    margin-bottom: 1rem;
+}
+
+.legal-page h2 {
+    font-size: var(--text-sm);
+    margin-bottom: 0.5rem;
+    text-decoration: underline;
+}
+
+#sections-box {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.legal-page ul {
+    margin-bottom: 1rem;
+}
+
+.legal-page li {
+    text-align: left;
+    list-style-type: disc;
+    margin-left: 1.5rem;
+}
+
+.legal-page li:has(li):has(ul) {
+    list-style-type: none;
+}
+
+.legal-page li li {
+    list-style-type: disc;
+    margin-left: 1.5rem;
+}
