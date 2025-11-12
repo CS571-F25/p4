@@ -12,6 +12,7 @@ function generateID() {
 export async function GET(request: Request) {
     const cookieStore = await cookies();
     const userId = cookieStore.get('userId')?.value;
+    const requestedProvider = new URL(request.url).searchParams.get('provider');
     if (!userId) {
         return NextResponse.json({ error: 'User ID not found in cookies' }, { status: 401 });
     }
@@ -26,7 +27,26 @@ export async function GET(request: Request) {
         return NextResponse.json({ error: 'User not found' }, { status: 404 });
     }
 
-    return NextResponse.json(Object.keys(userData.providers), { status: 200 });
+    let userIds = Object.entries(userData.providers).reduce((acc, [provider, data]) => {
+            acc[provider] = (data as { id: string }).id;
+            return acc;
+        }, {} as Record<string, string>);
+    userIds = { orbtId: userId, ...userIds };
+
+    if (requestedProvider) {
+        if (!userIds[requestedProvider]) {
+            return NextResponse.json({ error: 'Requested provider not found for user' }, { status: 404 });
+        }
+        return NextResponse.json(
+            { userId: userIds[requestedProvider], provider: requestedProvider },
+            { status: 200 }
+        );
+    }
+
+    return NextResponse.json(
+        { ...userIds },
+        { status: 200 }
+    );
 }
 
 export async function POST(request: Request) {
