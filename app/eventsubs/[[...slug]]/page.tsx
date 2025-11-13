@@ -19,7 +19,7 @@ function NoProviderEventsubs() {
     }
 
     return (
-        <div id="eventsubs-box">
+        <div id="eventsubs-box" className="block w-full">
             <p>
                 eventsub refers to subscription to a platforms events. an example is when you connect a twitch account, the
                 widgets can listen for follower, subscriber, and other events.

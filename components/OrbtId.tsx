@@ -5,14 +5,15 @@ import Clipboard from '@/components/Clipboard';
 import SVG from '@/components/Svg';
 
 export default function OrbtId({ color = 'dark', compact = false }: { color?: 'dark' | 'light'; compact?: boolean }) {
-    const [hidden, setHidden] = useState(true);
-    const [orbtId, setOrbtId] = useState('');
+    const [hidden, setHidden] = useState(false);
+    const [orbtId, setOrbtId] = useState('loading...');
 
     useEffect(() => {
         fetch('/api/user?provider=orbtId')
             .then((res) => res.json())
             .then((data) => {
                 if (data.userId) {
+                    setHidden(true);
                     setOrbtId(data.userId);
                 }
             });
@@ -30,8 +31,8 @@ export default function OrbtId({ color = 'dark', compact = false }: { color?: 'd
                 orbt ID:
                 <span className={`orbt-id ${hidden ? 'hide' : ''}`}>{hidden ? '●'.repeat(orbtId.length) : orbtId}</span>
                 <Clipboard text={orbtId} />
-                <button id="orbt-id-toggle" onClick={showOrbtId}>
-                    <SVG name={hidden ? 'eye' : 'eye-close'} />
+                <button id="orbt-id-toggle" className="flex justify-center items-center" onClick={showOrbtId}>
+                    <SVG name={hidden ? 'eye' : 'eye-close'} tooltip={{ text: hidden ? 'Show' : 'Hide' }} />
                 </button>
             </div>
             <p>
