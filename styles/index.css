@@ -34,7 +34,7 @@
     text-align: center;
 
     width: fit-content;
-    font-size: var(--text-xxs);
+    font-size: var(--text-xs);
 
     opacity: 0;
     animation: fadeIn 0.4s ease-in-out forwards;
@@ -102,7 +102,7 @@
 
 .feature-card-back {
     transform: rotateY(180deg);
-    padding: 1rem;
+    padding: 0.5rem;
 }
 
 .feature-card-back p {
