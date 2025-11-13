@@ -20,11 +20,19 @@ export default function Clipboard({ text, onClick }: { text?: string; onClick?: 
             onClick();
         }
         doCopy();
-    };
+    }
+
+    let tooltipText = 'copy to clipboard';
+    if (onClick) {
+        tooltipText = 'paste from clipboard';
+        if (copied) tooltipText = 'pasted!';
+    } else if (copied) {
+        tooltipText = 'copied!';
+    }
 
     return (
-        <button className="clipboard-button" onClick={handleClick}>
-            <SVG name={copied ? 'clipboard-2' : 'clipboard-1'} />
+        <button className="flex justify-center items-center clipboard-button" onClick={handleClick}>
+            <SVG name={copied ? 'clipboard-2' : 'clipboard-1'} tooltip={{ text: tooltipText }} />
         </button>
     );
 }

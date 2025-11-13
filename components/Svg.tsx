@@ -1,20 +1,25 @@
 import icons from '@/data/icons.json';
 
-function rmSymb(str: string) {
-    return str?.replace(/[<>/]/g, '').trim();
-}
+import Tooltip from '@/components/Tooltip';
 
-export default function Svg({ name, className }: { name: string; className?: string }) {
+export default function Svg({
+    name,
+    className,
+    tooltip,
+}: {
+    name: string;
+    className?: string;
+    tooltip?: Omit<React.ComponentProps<typeof Tooltip>, 'children'>;
+}) {
     let icon = icons.find((icon) => icon.name === name)?.svg;
 
     if (!icon) icon = icons.find((icon) => icon.name === 'lost-icon')?.svg;
 
     if (!icon) return null;
 
-    return (
-        <span
-            className={`icon ${className}`}
-            dangerouslySetInnerHTML={{ __html: icon }}
-        />
-    );
+    let svgElement = <span className={`icon ${className}`} dangerouslySetInnerHTML={{ __html: icon }} />;
+    if (tooltip) {
+        return <Tooltip {...tooltip}>{svgElement}</Tooltip>;
+    }
+    return svgElement;
 }
