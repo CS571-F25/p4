@@ -4,6 +4,7 @@ main:has(#provider-eventsubs) {
 }
 
 iframe {
+    flex: 1;
     background-color: white;
     border: 2px solid var(--bg-dark);
     border-radius: 1.5rem;
@@ -21,6 +22,38 @@ iframe {
     width: 100%;
 }
 
+.mobile-buttons {
+    position: fixed;
+    z-index: 5;
+    top: calc(100svh - 1rem);
+    left: 1rem;
+    translate: 0 -100%;
+
+    display: none;
+    flex-direction: row;
+    gap: 0.5rem;
+}
+
+.mobile-buttons button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 100vh;
+    padding: 0.5rem;
+    font-size: var(--text-xxs);
+    white-space: nowrap;
+
+    background-color: var(--primary);
+    color: var(--bg-dark);
+    border: 2px solid var(--bg-dark);
+}
+
+.mobile-buttons button svg {
+    width: var(--text-sm);
+    height: var(--text-sm);
+}
+
 .eventsubs-provider-box,
 .eventsubs-provider-container {
     display: flex;
@@ -28,7 +61,7 @@ iframe {
     align-items: center;
     justify-content: space-between;
 
-    border-radius: 1.5rem;
+    border-radius: 2rem;
     background-color: var(--text);
     color: var(--bg-dark);
     padding: 1rem;
@@ -72,6 +105,11 @@ iframe {
     user-select: none;
 }
 
+#widget-preview-input-box svg {
+    width: var(--text-xs);
+    height: var(--text-xs);
+}
+
 #test-events {
     display: flex;
     flex-direction: column;
@@ -98,6 +136,7 @@ iframe {
     padding: 2rem 0.25rem 1.25rem 0.25rem;
 
     height: 100%;
+    width: 100%;
     overflow-y: auto;
 }
 
@@ -139,6 +178,101 @@ iframe {
     width: 100%;
 }
 
+#activity-log {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    height: 100%;
+    width: 100%;
+    overflow-y: auto;
+    overflow-x: visible;
+}
+
+#activity-log::-webkit-scrollbar {
+    display: none;
+}
+
+.activity-log-entry {
+    display: block;
+    font-size: var(--text-xxs);
+    text-align: left;
+
+    width: 100%;
+    padding: 0.5rem;
+    border: 2px solid var(--bg-dark);
+    border-radius: 1.5rem;
+    overflow: visible;
+
+    transition:
+        margin,
+        bottom,
+        0.4s ease;
+    animation: entry-in 0.4s ease forwards;
+}
+
+.activity-log-entry.show {
+    margin-top: calc(-10 * var(--unit));
+}
+
+@keyframes entry-in {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.activity-log-entry:hover {
+    cursor: pointer;
+}
+
+.activity-log-entry .expand-button {
+    position: absolute;
+    top: 0;
+    right: 0.25rem;
+    translate: 0 -100%;
+}
+
+.activity-log-entry svg {
+    width: var(--text-xxs);
+    height: var(--text-xxs);
+}
+
+.activity-log-entry-header {
+    display: flex;
+    flex-direction: row;
+    gap: 0.5rem;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.activity-data-block {
+    position: relative;
+
+    margin-left: 1rem;
+    height: 100%;
+}
+
+.activity-data-content {
+    display: block;
+    height: 100%;
+    max-height: 50rem;
+    padding-top: 0;
+    transition:
+        max-height 0.4s ease-in-out,
+        padding-top 0.2s ease-in-out;
+    overflow: hidden;
+}
+
+.activity-data-content:first-child.expanded {
+    padding-top: 0.5rem;
+}
+
+.activity-data-content.collapsed {
+    max-height: 0rem;
+}
+
 @media (max-width: 1680px) {
     .eventsubs-provider-container .eventsubs-provider-box {
         /* height of a normal box, plus the padding, divided by 2 (two children) minus the gap*/
@@ -146,8 +280,59 @@ iframe {
     }
 }
 
-@media (max-width: 640px) {
+@media (max-width: 1240px) {
+    main:has(#provider-eventsubs) {
+        width: 100%;
+        max-width: 100%;
+        margin: 0;
+        overflow-x: hidden;
+    }
+
+    #footer {
+        margin-top: 0rem;
+    }
+
+    .mobile-only {
+        display: flex;
+    }
+
     #provider-eventsubs {
+        position: relative;
+        gap: 0;
         flex-direction: column;
+    }
+
+    .eventsubs-provider-box,
+    .modal {
+        display: none !important;
+        position: fixed;
+        z-index: 4 !important;
+        top: 0;
+        left: 0;
+
+        width: 100%;
+        height: 100%;
+        min-height: 100vh;
+        border-radius: 0;
+        padding: 10rem 1rem;
+        box-sizing: border-box;
+
+        background-color: var(--text) !important;
+    }
+
+    .modal.open {
+        display: flex !important;
+    }
+
+    .eventsubs-provider-box#widget-preview {
+        z-index: 3 !important;
+        display: flex !important;
+        position: relative;
+        min-height: 80vh !important;
+        padding: 2rem 1rem;
+    }
+
+    #test-event-buttons {
+        padding: 4rem 0.25rem 4rem 0.25rem;
     }
 }
