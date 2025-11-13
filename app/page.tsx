@@ -10,6 +10,11 @@ const features = [
         imgSrc: 'https://i.etsystatic.com/17233766/r/il/a8c546/6959385544/il_1588xN.6959385544_p8sv.jpg',
     },
     {
+        title: 'feature rich',
+        description: 'orbt widgets support a wide range of events and can be easily customized to fit your needs.',
+        imgSrc: 'https://i.etsystatic.com/17233766/r/il/a8c546/6959385544/il_1588xN.6959385544_p8sv.jpg',
+    },
+    {
         title: 'consistent settings',
         description: 'orbt widgets allow for consistent themes and goals that can easily be updated across all widgets.',
         imgSrc: 'https://i.etsystatic.com/17233766/r/il/a8c546/6959385544/il_1588xN.6959385544_p8sv.jpg',
