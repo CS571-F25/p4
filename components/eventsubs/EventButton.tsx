@@ -1,11 +1,11 @@
 import React from 'react';
 import providers from '@/data/providers.json';
 
-export default function EventButton({ provider, name }: { provider: keyof typeof providers, name: string }) {
+export default function EventButton({ provider, event, name }: { provider: keyof typeof providers, event: string, name: string }) {
     function handleClick() {
         fetch('/api/eventsub/test', {
             method: 'POST',
-            body: JSON.stringify({ service: provider, subscriptionType: name }),
+            body: JSON.stringify({ service: provider, subscriptionType: event }),
             headers: {
                 'Content-Type': 'application/json',
             },
