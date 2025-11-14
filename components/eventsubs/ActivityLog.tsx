@@ -56,6 +56,7 @@ export default function ActivityLog({ provider }: { provider: keyof typeof provi
                         className="activity-log-entry shadow"
                         onClick={(e) => toggleCollapsed(e, index)}
                         role="menuitem"
+                        tabIndex={0}
                     >
                         <span className="activity-log-entry-header">
                             <SVG name={entry.service} tooltip={{ text: `service: ${entry.service}`, location: 'right' }} />
