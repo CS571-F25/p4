@@ -6,7 +6,7 @@ import providers from '@/data/providers.json';
 import { generateWithFormat } from '../utils/generateData';
 
 export async function POST(req: NextRequest) {
-    const { service, subscriptionType } = await req.json();
+    const { service, subscriptionType, userId } = await req.json();
     const typedService = service as keyof typeof providers;
     const typedSubscriptionType = subscriptionType as keyof (typeof providers)[typeof typedService]['eventsub'];
 
@@ -30,7 +30,7 @@ export async function POST(req: NextRequest) {
 
     const mockData = generateWithFormat(service, formatter);
 
-    await sendEventToUser('415504629', { service, subscription: subscriptionType, mock: true, data: mockData }).catch((err) => {
+    await sendEventToUser(userId, { service, subscription: subscriptionType, mock: true, data: mockData }).catch((err) => {
         return new NextResponse(`Failed to send event: ${err.message}`, { status: 500 });
     });
 

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import '@/styles/eventsubsProvider.css';
 
 import providers from '@/data/providers.json';
@@ -12,8 +12,18 @@ import EventButton from '@/components/eventsubs/EventButton';
 import ActivityLog from '@/components/eventsubs/ActivityLog';
 
 export default function ProviderEventsubs({ provider }: { provider: keyof typeof providers }) {
+    const [orbtId, setOrbtId] = useState('');
     const [widgetPreview, setWidgetPreview] = useState('');
     const [openModal, setOpenModal] = useState('');
+
+    useEffect(() => {
+        fetch('/api/user?provider=orbtId')
+            .then((res) => res.json())
+            .then((data) => {
+                if (!data.userId) return;
+                setOrbtId(data.userId);
+            });
+    }, []);
 
     function pastePreview() {
         navigator.clipboard.readText().then((text) => {
@@ -43,10 +53,7 @@ export default function ProviderEventsubs({ provider }: { provider: keyof typeof
                 </button>
             </span>
             <div id="goals-test-events" className="eventsubs-provider-container">
-                <div
-                    id="test-events"
-                    className={`eventsubs-provider-box modal ${openModal === 'test-events' ? 'open' : ''}`}
-                >
+                <div id="test-events" className={`eventsubs-provider-box modal ${openModal === 'test-events' ? 'open' : ''}`}>
                     <TextBubble>{provider}: test events</TextBubble>
                     <div id="test-event-buttons">
                         {Object.entries(providers?.[provider]?.eventsub)?.map(([name, event], i) => (
@@ -65,10 +72,7 @@ export default function ProviderEventsubs({ provider }: { provider: keyof typeof
                         ))}
                     </div>
                 </div>
-                <div
-                    id="goals"
-                    className={`eventsubs-provider-box modal ${openModal === 'goals' ? 'open' : ''}`}
-                >
+                <div id="goals" className={`eventsubs-provider-box modal ${openModal === 'goals' ? 'open' : ''}`}>
                     <span>
                         <h2>manage goals</h2>
                         <p>goals apply to all widgets</p>
