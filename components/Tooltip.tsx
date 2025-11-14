@@ -26,10 +26,6 @@ export default function Tooltip({
             onMouseLeave={() => setVisible(false)}
             onFocus={() => setVisible(true)}
             onBlur={() => setVisible(false)}
-            onClick={() => {
-                setVisible(false);
-            }}
-            tabIndex={0}
         >
             {children}
             <div

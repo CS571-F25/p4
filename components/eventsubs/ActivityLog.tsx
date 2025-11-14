@@ -66,7 +66,6 @@ export default function ActivityLog({ provider }: { provider: keyof typeof provi
                         onClick={(e) => toggleCollapsed(e, index)}
                         onKeyDown={(e) => handleKeyDown(e, index)}
                         tabIndex={0}
-                        role="button"
                         aria-expanded={!collapsed[index]}
                     >
                         <span className="activity-log-entry-header">
