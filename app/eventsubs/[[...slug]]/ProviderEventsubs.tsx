@@ -46,8 +46,6 @@ export default function ProviderEventsubs({ provider }: { provider: keyof typeof
                 <div
                     id="test-events"
                     className={`eventsubs-provider-box modal ${openModal === 'test-events' ? 'open' : ''}`}
-                    onClick={() => changeModal('')}
-                    tabIndex={0}
                 >
                     <TextBubble>{provider}: test events</TextBubble>
                     <div id="test-event-buttons">
@@ -62,6 +60,7 @@ export default function ProviderEventsubs({ provider }: { provider: keyof typeof
                                         .toLowerCase() || name
                                 }
                                 event={name}
+                                onClick={() => setOpenModal('')}
                             />
                         ))}
                     </div>
@@ -69,8 +68,6 @@ export default function ProviderEventsubs({ provider }: { provider: keyof typeof
                 <div
                     id="goals"
                     className={`eventsubs-provider-box modal ${openModal === 'goals' ? 'open' : ''}`}
-                    onClick={() => changeModal('')}
-                    tabIndex={0}
                 >
                     <span>
                         <h2>manage goals</h2>
@@ -78,7 +75,7 @@ export default function ProviderEventsubs({ provider }: { provider: keyof typeof
                     </span>
                 </div>
             </div>
-            <div id="widget-preview" className="eventsubs-provider-box" onClick={() => changeModal('')} tabIndex={0}>
+            <div id="widget-preview" className="eventsubs-provider-box">
                 <div id="widget-preview-input-box">
                     <input
                         id="widget-preview-input"

@@ -19,13 +19,22 @@ export default function ActivityLog({ provider }: { provider: keyof typeof provi
     const [activityLog, setActivityLog] = useState<ActivityLogEntry[]>([]);
     const [collapsed, setCollapsed] = useState<boolean[]>([]);
 
-    const toggleCollapsed = (e: React.MouseEvent, index: number) => {
+    const toggleCollapsed = (e: React.MouseEvent | React.KeyboardEvent, index: number) => {
         if ((e.target as HTMLElement).closest('button')) return;
         setCollapsed((prev) => {
             const newCollapsed = [...prev];
             newCollapsed[index] = !newCollapsed[index];
             return newCollapsed;
         });
+    };
+
+    const handleKeyDown = (e: React.KeyboardEvent, index: number) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+            if (!(e.target as HTMLElement).closest('button')) {
+                e.preventDefault();
+                toggleCollapsed(e, index);
+            }
+        }
     };
 
     useEffect(() => {
@@ -55,8 +64,10 @@ export default function ActivityLog({ provider }: { provider: keyof typeof provi
                         key={index}
                         className="activity-log-entry shadow"
                         onClick={(e) => toggleCollapsed(e, index)}
-                        role="menuitem"
+                        onKeyDown={(e) => handleKeyDown(e, index)}
                         tabIndex={0}
+                        role="button"
+                        aria-expanded={!collapsed[index]}
                     >
                         <span className="activity-log-entry-header">
                             <SVG name={entry.service} tooltip={{ text: `service: ${entry.service}`, location: 'right' }} />
