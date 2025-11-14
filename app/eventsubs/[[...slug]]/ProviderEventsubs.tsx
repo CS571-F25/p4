@@ -67,6 +67,7 @@ export default function ProviderEventsubs({ provider }: { provider: keyof typeof
                                         .toLowerCase() || name
                                 }
                                 event={name}
+                                userId={orbtId}
                                 onClick={() => setOpenModal('')}
                             />
                         ))}
