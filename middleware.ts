@@ -10,7 +10,7 @@ export function middleware(req: NextRequest) {
     response.headers.set('Access-Control-Allow-Headers', 'Content-Type, Authorization');
 
     // Disable caching for EventSource connections
-    if (req.nextUrl.pathname === '/api/eventsub/connect') {
+    if (req.nextUrl.pathname.startsWith('/api/eventsub')) {
         response.headers.set('Cache-Control', 'no-cache, no-store, must-revalidate');
         response.headers.set('Pragma', 'no-cache');
         response.headers.set('Expires', '0');
