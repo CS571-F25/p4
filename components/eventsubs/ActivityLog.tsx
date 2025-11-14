@@ -51,7 +51,12 @@ export default function ActivityLog({ provider }: { provider: keyof typeof provi
             <TextBubble>activity log</TextBubble>
             <ul id="activity-log">
                 {activityLog.map((entry, index) => (
-                    <li key={index} className="activity-log-entry shadow" onClick={(e) => toggleCollapsed(e, index)}>
+                    <li
+                        key={index}
+                        className="activity-log-entry shadow"
+                        onClick={(e) => toggleCollapsed(e, index)}
+                        role="menuitem"
+                    >
                         <span className="activity-log-entry-header">
                             <SVG name={entry.service} tooltip={{ text: `service: ${entry.service}`, location: 'right' }} />
                             {entry.mock && <SVG name="gear-1" tooltip={{ text: 'this is a mock event', location: 'right' }} />}
