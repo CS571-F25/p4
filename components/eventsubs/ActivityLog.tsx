@@ -43,7 +43,7 @@ export default function ActivityLog({ provider }: { provider: keyof typeof provi
             .then((data) => {
                 if (!data.userId) return;
 
-                const es = new EventSource(`${process.env.NEXT_PUBLIC_API}/eventsub/connect?userId=${data.userId}`);
+                const es = new EventSource(`/api/eventsub/connect?userId=${data.userId}`);
 
                 es.onmessage = (event) => {
                     const parsedData = JSON.parse(event.data);
