@@ -29,6 +29,7 @@ export default function Tooltip({
             onClick={() => {
                 setVisible(false);
             }}
+            tabIndex={0}
         >
             {children}
             <div
