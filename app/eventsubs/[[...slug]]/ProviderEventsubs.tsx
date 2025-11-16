@@ -3,6 +3,8 @@ import '@/styles/eventsubsProvider.css';
 
 import providers from '@/data/providers.json';
 
+import { Goal } from '@/types/Goal';
+
 import SVG from '@/components/Svg';
 import Clipboard from '@/components/Clipboard';
 import OrbtId from '@/components/OrbtId';
@@ -10,9 +12,12 @@ import OrbtId from '@/components/OrbtId';
 import TextBubble from '@/components/TextBubble';
 import EventButton from '@/components/eventsubs/EventButton';
 import ActivityLog from '@/components/eventsubs/ActivityLog';
+import GoalBlock from '@/components/eventsubs/GoalBlock';
+import Spinner from '@/components/Spinner';
 
 export default function ProviderEventsubs({ provider }: { provider: keyof typeof providers }) {
     const [orbtId, setOrbtId] = useState('');
+    const [goals, setGoals] = useState<Record<string, { value: number; goal: number }>>({});
     const [widgetPreview, setWidgetPreview] = useState('');
     const [openModal, setOpenModal] = useState('');
 
@@ -24,6 +29,19 @@ export default function ProviderEventsubs({ provider }: { provider: keyof typeof
                 setOrbtId(data.userId);
             });
     }, []);
+
+    useEffect(() => {
+        if (!orbtId || !provider) return;
+        fetch(`/api/eventsub/goals?orbtId=${orbtId}&service=${provider}`)
+            .then((res) => res.json())
+            .then((data) => {
+                const goals: Record<string, { value: number; goal: number }> = {};
+                data.forEach((goal: Goal) => {
+                    goals[goal.goalType] = { value: goal.values.total.value, goal: 100 };
+                });
+                setGoals(goals);
+            });
+    }, [orbtId, provider]);
 
     function pastePreview() {
         navigator.clipboard.readText().then((text) => {
@@ -74,9 +92,15 @@ export default function ProviderEventsubs({ provider }: { provider: keyof typeof
                     </div>
                 </div>
                 <div id="goals" className={`eventsubs-provider-box modal ${openModal === 'goals' ? 'open' : ''}`}>
-                    <span>
+                    <span className="goals-header">
                         <h2>manage goals</h2>
                         <p>goals apply to all widgets</p>
+                    </span>
+                    <span className="goals-body">
+                        <Spinner loading={!Object.entries(goals).length} />
+                        {Object.entries(goals).map(([name, { value, goal }], i) => (
+                            <GoalBlock key={i} name={name} value={value} goal={goal} i={i} />
+                        ))}
                     </span>
                 </div>
             </div>
@@ -92,7 +116,7 @@ export default function ProviderEventsubs({ provider }: { provider: keyof typeof
                     />
                     <Clipboard onClick={pastePreview} />
                     <button className="flex justify-center items-center" onClick={() => setWidgetPreview('')}>
-                        <SVG name="mark-x" tooltip={{ text: 'Clear' }} />
+                        <SVG name="mark-x" tooltip={{ text: 'clear' }} />
                     </button>
                 </div>
                 {widgetPreview && <iframe src={widgetPreview} title="Widget Preview" />}
@@ -104,7 +128,7 @@ export default function ProviderEventsubs({ provider }: { provider: keyof typeof
                 </div>
             </div>
             <div id="activity" className={`eventsubs-provider-box modal ${openModal === 'activity-log' ? 'open' : ''}`}>
-                <ActivityLog provider={provider} />
+                <ActivityLog />
             </div>
         </div>
     );
