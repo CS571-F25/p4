@@ -1,7 +1,21 @@
 import React from 'react';
 import providers from '@/data/providers.json';
 
-export default function EventButton({ provider, event, name, userId, onClick }: { provider: keyof typeof providers, event: string, name: string, userId: string, onClick: () => void }) {
+import SVG from '@/components/Svg';
+
+export default function EventButton({
+    provider,
+    event,
+    name,
+    userId,
+    onClick,
+}: {
+    provider: keyof typeof providers;
+    event: string;
+    name: string;
+    userId: string;
+    onClick: () => void;
+}) {
     function handleClick() {
         onClick();
         fetch('/api/eventsub/test', {
@@ -18,7 +32,13 @@ export default function EventButton({ provider, event, name, userId, onClick }: 
             <button onClick={handleClick} className="primary-button">
                 {name}
             </button>
-            <button>...</button>
+            <button className="secondary-button flex items-center justify-center">
+                <SVG
+                    name="gear-2"
+                    tooltip={{ text: `enter custom ${name} event data`, location: 'left' }}
+                    className="secondary-button-icon"
+                />
+            </button>
         </div>
     );
 }
