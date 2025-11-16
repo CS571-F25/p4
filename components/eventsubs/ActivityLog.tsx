@@ -3,11 +3,11 @@ import { useState, useEffect } from 'react';
 import providers from '@/data/providers.json';
 
 import TextBubble from '@/components/TextBubble';
-import Tooltip from '@/components/Tooltip';
 import SVG from '@/components/Svg';
 import ActivityDataBlock from '@/components/eventsubs/ActivityDataBlock';
 
 interface ActivityLogEntry {
+    id: string;
     service: string;
     subscription: string;
     mock?: boolean;
@@ -15,24 +15,23 @@ interface ActivityLogEntry {
     data: any;
 }
 
-export default function ActivityLog({ provider }: { provider: keyof typeof providers }) {
+export default function ActivityLog() {
     const [activityLog, setActivityLog] = useState<ActivityLogEntry[]>([]);
-    const [collapsed, setCollapsed] = useState<boolean[]>([]);
+    const [collapsed, setCollapsed] = useState<{ [key: string]: boolean }>({});
 
-    const toggleCollapsed = (e: React.MouseEvent | React.KeyboardEvent, index: number) => {
+    const toggleCollapsed = (e: React.MouseEvent | React.KeyboardEvent, id: string) => {
         if ((e.target as HTMLElement).closest('button')) return;
-        setCollapsed((prev) => {
-            const newCollapsed = [...prev];
-            newCollapsed[index] = !newCollapsed[index];
-            return newCollapsed;
-        });
+        setCollapsed((prev) => ({
+            ...prev,
+            [id]: !prev[id],
+        }));
     };
 
-    const handleKeyDown = (e: React.KeyboardEvent, index: number) => {
+    const handleKeyDown = (e: React.KeyboardEvent, id: string) => {
         if (e.key === 'Enter' || e.key === ' ') {
             if (!(e.target as HTMLElement).closest('button')) {
                 e.preventDefault();
-                toggleCollapsed(e, index);
+                toggleCollapsed(e, id);
             }
         }
     };
@@ -47,10 +46,8 @@ export default function ActivityLog({ provider }: { provider: keyof typeof provi
 
                 es.onmessage = (event) => {
                     const parsedData = JSON.parse(event.data);
-                    if (parsedData.service === provider) {
-                        setActivityLog((prev) => [{ ...parsedData, timestamp: Date.now() }, ...prev]);
-                        setCollapsed((prev) => [false, ...prev]);
-                    }
+                    const id = `${Date.now()}-${Math.random()}`;
+                    setActivityLog((prev) => [{ ...parsedData, id, timestamp: Date.now() }, ...prev]);
                 };
             });
     }, []);
@@ -59,30 +56,35 @@ export default function ActivityLog({ provider }: { provider: keyof typeof provi
         <>
             <TextBubble>activity log</TextBubble>
             <ul id="activity-log">
-                {activityLog.map((entry, index) => (
+                {activityLog.map(({ id, service, mock, subscription, timestamp, data }) => (
                     <li
-                        key={index}
+                        key={id}
                         className="activity-log-entry shadow"
-                        onClick={(e) => toggleCollapsed(e, index)}
-                        onKeyDown={(e) => handleKeyDown(e, index)}
+                        onClick={(e) => toggleCollapsed(e, id)}
+                        onKeyDown={(e) => handleKeyDown(e, id)}
                         tabIndex={0}
                         role="menuitem"
-                        aria-expanded={!collapsed[index]}
+                        aria-expanded={!collapsed[id]}
                     >
                         <span className="activity-log-entry-header">
-                            <SVG name={entry.service} tooltip={{ text: `service: ${entry.service}`, location: 'right' }} />
-                            {entry.mock && <SVG name="gear-1" tooltip={{ text: 'this is a mock event', location: 'right' }} />}
-                            <p>
-                                {entry.subscription
-                                    .replace(/([A-Z])/g, ' $1')
-                                    .trim()
-                                    .toLowerCase()}
-                            </p>
+                            <span className="flex items-center gap-2">
+                                <SVG
+                                    name={service === 'orbt' ? 'star' : service}
+                                    tooltip={{ text: `service: ${service}`, location: 'right' }}
+                                />
+                                {mock && <SVG name="gear-1" tooltip={{ text: 'this is a mock event', location: 'right' }} />}
+                                <p>
+                                    {subscription
+                                        .replace(/([A-Z])/g, ' $1')
+                                        .trim()
+                                        .toLowerCase()}
+                                </p>
+                            </span>
                             <time className="activity-log-timestamp">
-                                {new Date(entry.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                                {new Date(timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                             </time>
                         </span>
-                        <ActivityDataBlock data={entry.data} isFirst={true} isCollapsed={collapsed[index]} />
+                        <ActivityDataBlock data={data} isFirst={true} isCollapsed={collapsed[id]} />
                     </li>
                 ))}
             </ul>

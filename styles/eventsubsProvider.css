@@ -73,6 +73,8 @@ iframe {
 }
 
 .eventsubs-provider-container {
+    flex: 0.8;
+
     flex-direction: row-reverse;
     flex-wrap: wrap;
 
@@ -127,6 +129,19 @@ iframe {
     gap: 0.5rem;
 
     width: 100%;
+
+    animation-timeline: view();
+    animation-name: pop;
+}
+
+.event-button svg {
+    width: var(--text-xs);
+    height: var(--text-xs);
+    transition: rotate 0.4s ease;
+}
+
+.event-button svg:hover {
+    rotate: 90deg;
 }
 
 #test-event-buttons {
@@ -140,12 +155,8 @@ iframe {
     overflow-y: auto;
 }
 
-.event-button {
-    animation-timeline: view();
-    animation-name: pop;
-}
-
 #activity {
+    position: relative;
     flex: 0.5;
 }
 
@@ -178,6 +189,69 @@ iframe {
     width: 100%;
 }
 
+.event-button button.secondary-button {
+    padding: 0.5rem;
+}
+
+#goals {
+    justify-content: flex-start;
+    font-size: var(--text-xs);
+}
+
+.goals-header {
+    margin-bottom: 0.5rem;
+}
+
+.goals-header p {
+    font-size: var(--text-xxs);
+}
+
+.goals-body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 90%;
+    overflow-y: auto;
+}
+
+.goal-block,
+.goal-data {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.goal-block {
+    width: 100%;
+
+    opacity: 0;
+    animation: entry-in 1s ease forwards;
+    animation-delay: calc(var(--goal-index) * 0.3s);
+}
+
+.goal-block h3 {
+    flex: 1;
+    text-align: left;
+}
+
+.goal-data {
+    width: 40%;
+}
+
+.goal-data p {
+    flex: 1;
+}
+
+.goal-data input {
+    width: calc(var(--char-length) * 1ch + 3rem);
+    background-color: var(--bg-dark);
+    color: var(--text);
+    font-size: inherit;
+    border-radius: 100vh;
+    padding: 0.25rem 0.5rem;
+}
+
 #activity-log {
     display: flex;
     flex-direction: column;
@@ -203,23 +277,31 @@ iframe {
     border-radius: 1.5rem;
     overflow: visible;
 
-    transition:
-        margin,
-        bottom,
-        0.4s ease;
-    animation: entry-in 0.4s ease forwards;
+    opacity: 0;
+    animation-name: fade-in, slide-in;
+    animation-delay: 0.2s, 0s;
+    animation-duration: 0.4s, 0.4s;
+    animation-timing-function: ease, ease;
+    animation-fill-mode: forwards, forwards;
 }
 
-.activity-log-entry.show {
-    margin-top: calc(-10 * var(--unit));
-}
-
-@keyframes entry-in {
+@keyframes fade-in {
     from {
         opacity: 0;
     }
     to {
         opacity: 1;
+    }
+}
+
+@keyframes slide-in {
+    from {
+        margin-bottom: -1rem;
+        translate: -1rem 0;
+    }
+    to {
+        margin-bottom: 0;
+        translate: 0 0;
     }
 }
 
@@ -244,7 +326,7 @@ iframe {
     flex-direction: row;
     gap: 0.5rem;
     align-items: center;
-    justify-content: flex-start;
+    justify-content: space-between;
 }
 
 .activity-data-block {
