@@ -32,7 +32,7 @@ export default function OrbtId({ color = 'dark', compact = false }: { color?: 'd
                 <span className={`orbt-id ${hidden ? 'hide' : ''}`}>{hidden ? '●'.repeat(orbtId.length) : orbtId}</span>
                 <Clipboard text={orbtId} />
                 <button id="orbt-id-toggle" className="flex justify-center items-center" onClick={showOrbtId}>
-                    <SVG name={hidden ? 'eye' : 'eye-close'} tooltip={{ text: hidden ? 'Show' : 'Hide' }} />
+                    <SVG name={hidden ? 'eye' : 'eye-close'} tooltip={{ text: hidden ? 'show' : 'hide' }} />
                 </button>
             </div>
             <p>
