@@ -29,7 +29,7 @@ export default function Tooltip({
         >
             {children}
             <div
-                className={`tooltip border-bg-dark border-2 bg-primary text-bg-dark text-xxs px-3 py-0.5 rounded-full z-10 absolute ${locations[location]} whitespace-nowrap transition-opacity ${visible ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}
+                className={`tooltip shadow border-bg-dark border-2 bg-primary text-bg-dark text-xxs px-3 py-0.5 rounded-full z-10 absolute ${locations[location]} whitespace-nowrap transition-opacity ${visible ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}
             >
                 {text}
             </div>
