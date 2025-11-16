@@ -83,7 +83,7 @@ async function sendEventToUser(userId: string, event: EventType | SystemEventTyp
         }
         return true;
     }
-    throw new Error('No clients for user');
+    return false;
 }
 
 export { clients, sendEventToUser };
