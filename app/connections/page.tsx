@@ -9,7 +9,7 @@ export default function Connections() {
             <p>include events & data from popular services</p>
             <div id="provider-button-container">
                 {Object.entries(providers).map(([provider, { color }], i) => (
-                    <ProviderButton key={i} provider={provider} color={color} />
+                    <ProviderButton key={i} provider={provider} color={color} textStatus={true} />
                 ))}
             </div>
         </div>
