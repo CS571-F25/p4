@@ -1,6 +1,5 @@
 import { NextResponse } from 'next/server';
 import providers from '@/data/providers.json';
-import connect from '@/mongo/db';
 
 // Creates Twitch EventSub subscriptions for a given user
 export async function POST(req: Request) {
@@ -12,8 +11,6 @@ export async function POST(req: Request) {
     const accessToken = await fetch(`${process.env.API}/eventsub/service/twitch/appaccess`).then((res) =>
         res.json().then((data) => data.accessToken)
     );
-
-    await connect();
 
     const callbackUrl = `${process.env.API}/eventsub/service/twitch`;
     const secret = process.env.WEBHOOK_SECRET;
@@ -79,7 +76,6 @@ export async function DELETE(req: Request) {
     const accessToken = await fetch(`${process.env.API}/eventsub/service/twitch/appaccess`).then((res) =>
         res.json().then((data) => data.accessToken)
     );
-    await connect();
     const response = await fetch('https://api.twitch.tv/helix/eventsub/subscriptions', {
         method: 'GET',
         headers: {
