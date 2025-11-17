@@ -17,7 +17,7 @@ export default function Footer() {
                     <a href="/shop">
                         <SVG name="shop" tooltip={{ text: 'shop orbt widgets' }} />
                     </a>
-                    <a href="/docs">
+                    <a href="/resources/docs">
                         <SVG name="book" tooltip={{ text: 'developer docs' }} />
                     </a>
                     <a href="/legal/terms">terms</a>
