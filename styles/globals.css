@@ -348,7 +348,10 @@ input {
 
 /* ----------------- text bubble ----------------- */
 .text-bubble {
-    display: inline-block;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 1rem;
     padding: 0.5rem 1rem;
     border-radius: 100vh;
     background-color: var(--text);
@@ -409,8 +412,8 @@ input {
     --color-light: var(--primary);
     --color-text: var(--text);
 
-    --orbt-id-text-sm: var(--text-xxs);
-    --orbt-id-text-lg: var(--text-xs);
+    --orbt-id-text-sm: var(--text-xs);
+    --orbt-id-text-lg: var(--text-sm);
 
     display: flex;
     flex-direction: column;
