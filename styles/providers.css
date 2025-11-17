@@ -21,6 +21,6 @@
 
     border-radius: 100vh;
     padding: 1rem;
-    background-color: var(--primary);
-    color: var(--primary);
+    background-color: var(--bg-superdark);
+    color: var(--text);
 }
