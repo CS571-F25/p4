@@ -1,6 +1,6 @@
 {
     "twitch": {
-        "color": "#9580ff",
+        "color": "#9146ff",
         "scopes": [
             "openid",
             "user:read:email",
