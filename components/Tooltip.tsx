@@ -26,6 +26,8 @@ export default function Tooltip({
             onMouseLeave={() => setVisible(false)}
             onFocus={() => setVisible(true)}
             onBlur={() => setVisible(false)}
+            onClick={() => setVisible(false)}
+            role="button"
         >
             {children}
             <div
