@@ -5,7 +5,7 @@ import Clipboard from '@/components/Clipboard';
 import SVG from '@/components/Svg';
 
 export default function OrbtId({ color = 'dark', compact = false }: { color?: 'dark' | 'light'; compact?: boolean }) {
-    const [hidden, setHidden] = useState(false);
+    const [hidden, setHidden] = useState<boolean | null>(null);
     const [orbtId, setOrbtId] = useState('loading...');
 
     useEffect(() => {
@@ -16,10 +16,14 @@ export default function OrbtId({ color = 'dark', compact = false }: { color?: 'd
                     setHidden(true);
                     setOrbtId(data.userId);
                 }
+            })
+            .catch(() => {
+                setOrbtId('failed to load');
             });
     }, []);
 
     function showOrbtId() {
+        if (hidden === null) return;
         if (!hidden) return setHidden(true);
         setHidden(false);
         setTimeout(() => setHidden(true), 3000);

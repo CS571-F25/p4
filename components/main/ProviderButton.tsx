@@ -1,6 +1,8 @@
 'use client';
 import { useState, useEffect } from 'react';
 import { signIn } from 'next-auth/react';
+
+import Spinner from '@/components/Spinner';
 import Svg from '@/components/Svg';
 
 export default function ProviderButton({
@@ -45,7 +47,7 @@ export default function ProviderButton({
 
     let background = <div className="provider-badge-inactive"></div>;
     if (isLoggedIn === null) {
-        background = <div className="provider-badge-loading"></div>;
+        background = <Spinner loading={true} className="my-[-1rem] mx-[-0.5rem] text-[var(--provider-color)]" />;
     } else if (isLoggedIn) {
         background = <Svg name="badge" className="provider-badge transition-transform" />;
     }
