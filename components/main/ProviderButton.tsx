@@ -15,6 +15,7 @@ export default function ProviderButton({
     textStatus?: boolean;
 }) {
     const [isLoggedIn, setIsLoggedIn] = useState<boolean | null>(null);
+    const [username, setUsername] = useState<string>('');
 
     useEffect(() => {
         async function fetchProviders() {
@@ -25,6 +26,12 @@ export default function ProviderButton({
                     return;
                 }
                 const data = await response.json();
+
+                fetch(`/api/eventsub/service/${provider}/getUser?userId=${data[provider]}`)
+                    .then((res) => res.json())
+                    .then((data) => setUsername(data.broadcaster_name))
+                    .catch(() => setUsername(''));
+
                 setIsLoggedIn(!!provider && data[provider]);
             } catch (error) {
                 setIsLoggedIn(false);
@@ -44,7 +51,7 @@ export default function ProviderButton({
     }
 
     return (
-        <span className="provider-button-wrapper flex gap-4 items-center text-bg-dark">
+        <span className="provider-button-wrapper flex gap-4 items-center">
             <button
                 className={`provider-button`}
                 style={{ '--provider-color': `${color}` } as React.CSSProperties}
@@ -58,7 +65,7 @@ export default function ProviderButton({
                     <span>{provider}</span>
                     <span>-</span>
                     <span className="provider-text">
-                        {isLoggedIn === null ? 'loading...' : isLoggedIn ? 'connected' : 'not connected'}
+                        {isLoggedIn === null ? 'loading...' : isLoggedIn ? username || 'loading...' : 'not connected'}
                     </span>
                 </>
             )}
