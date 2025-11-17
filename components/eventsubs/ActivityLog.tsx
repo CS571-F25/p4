@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 import providers from '@/data/providers.json';
 
@@ -18,6 +18,7 @@ interface ActivityLogEntry {
 export default function ActivityLog() {
     const [activityLog, setActivityLog] = useState<ActivityLogEntry[]>([]);
     const [collapsed, setCollapsed] = useState<{ [key: string]: boolean }>({});
+    const eventSourceRef = useRef<EventSource | null>(null);
 
     const toggleCollapsed = (e: React.MouseEvent | React.KeyboardEvent, id: string) => {
         if ((e.target as HTMLElement).closest('button')) return;
@@ -37,24 +38,76 @@ export default function ActivityLog() {
     };
 
     useEffect(() => {
+        if (eventSourceRef.current) return;
+
         fetch('/api/user?provider=orbtId')
             .then((res) => res.json())
             .then((data) => {
                 if (!data.userId) return;
+                // Double-check we haven't connected in the meantime
+                if (eventSourceRef.current) return;
 
                 const es = new EventSource(`/api/eventsub/connect?userId=${data.userId}`);
+                eventSourceRef.current = es;
 
                 es.onmessage = (event) => {
                     const parsedData = JSON.parse(event.data);
                     const id = `${Date.now()}-${Math.random()}`;
                     setActivityLog((prev) => [{ ...parsedData, id, timestamp: Date.now() }, ...prev]);
                 };
+
+                es.onerror = () => {
+                    console.error('EventSource connection error');
+                };
+            })
+            .catch((error) => {
+                console.error('Failed to fetch user data:', error);
             });
+
+        return () => {
+            if (eventSourceRef.current) {
+                eventSourceRef.current.close();
+                eventSourceRef.current = null;
+            }
+        };
     }, []);
 
     return (
         <>
-            <TextBubble>activity log</TextBubble>
+            <TextBubble>
+                <span>activity log</span>
+                <span className="flex row gap-2">
+                    <button
+                        className="flex row items-center justify-center"
+                        onClick={() =>
+                            setCollapsed(() => {
+                                const newCollapsed: { [key: string]: boolean } = {};
+                                activityLog.forEach((entry) => (newCollapsed[entry.id] = false));
+                                return newCollapsed;
+                            })
+                        }
+                    >
+                        <SVG
+                            name="eye-close"
+                            className="[&>svg]:h-[var(--text-xs)] [&>svg]:w-[var(--text-xs)]"
+                            tooltip={{ text: 'collapse all entries', location: 'left' }}
+                        />
+                    </button>
+                    <button
+                        className="flex row items-center justify-center"
+                        onClick={() => {
+                            setCollapsed({});
+                            setActivityLog([]);
+                        }}
+                    >
+                        <SVG
+                            name="mark-x"
+                            className="[&>svg]:h-[var(--text-xs)] [&>svg]:w-[var(--text-xs)]"
+                            tooltip={{ text: 'clear all entries', location: 'left' }}
+                        />
+                    </button>
+                </span>
+            </TextBubble>
             <ul id="activity-log">
                 {activityLog.map(({ id, service, mock, subscription, timestamp, data }) => (
                     <li
