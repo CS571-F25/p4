@@ -16,15 +16,15 @@ export default function DataFormModal({
     setTestData: (data: Record<string, any> | null) => void;
     userId: string;
 }) {
-    const { data, service, subscription } = testData;
+    const { data, service, subscription, event } = testData;
     const [currentData, setCurrentData] = useState(testData.data);
 
     function submitData() {
         fetch('/api/eventsub/test', {
             method: 'POST',
             body: JSON.stringify({
-                service: testData.service,
-                subscriptionType: testData.subscription,
+                service: service,
+                subscriptionType: event,
                 userId,
                 data: currentData,
             }),

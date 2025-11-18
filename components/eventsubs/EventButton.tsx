@@ -32,7 +32,7 @@ export default function EventButton({
     function secondaryClick() {
         fetch(`/api/eventsub/test?service=${provider}&subscriptionType=${event}`)
             .then((res) => res.json())
-            .then((data) => setTestData({ ...data, subscription: name }));
+            .then((data) => setTestData({ ...data, subscription: name, event }));
     }
 
     return (
