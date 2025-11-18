@@ -3,6 +3,9 @@ import connect from '@/mongo/db';
 import WidgetUser from '@/mongo/models/WidgetUser';
 import { sendEventToUser } from '../../connect/utils/sendEventToUser';
 
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 // Receives Twitch EventSub notifications and forwards them to connected clients
 export async function POST(req: NextRequest) {
     const messageType = req.headers.get('twitch-eventsub-message-type');
@@ -33,7 +36,6 @@ export async function POST(req: NextRequest) {
 
     // Handle Twitch EventSub notifications
     if (messageType === 'notification') {
-        console.log('Received Twitch EventSub notification:', body);
         const userId = body.event.broadcaster_user_id || body.event.to_broadcaster_user_id;
         sendEventToUser(userId, { service: 'twitch', subscription: body.subscription.type, data: body.event });
 
