@@ -9,14 +9,16 @@ export default function EventButton({
     name,
     userId,
     onClick,
+    setTestData,
 }: {
     provider: keyof typeof providers;
     event: string;
     name: string;
     userId: string;
     onClick: () => void;
+    setTestData: (data: any) => void;
 }) {
-    function handleClick() {
+    function primaryClick() {
         onClick();
         fetch('/api/eventsub/test', {
             method: 'POST',
@@ -27,12 +29,18 @@ export default function EventButton({
         });
     }
 
+    function secondaryClick() {
+        fetch(`/api/eventsub/test?service=${provider}&subscriptionType=${event}`)
+            .then((res) => res.json())
+            .then((data) => setTestData({ ...data, subscription: name }));
+    }
+
     return (
         <div className="event-button">
-            <button onClick={handleClick} className="primary-button">
+            <button onClick={primaryClick} className="primary-button">
                 {name}
             </button>
-            <button className="secondary-button flex items-center justify-center">
+            <button onClick={secondaryClick} className="secondary-button flex items-center justify-center">
                 <SVG
                     name="gear-2"
                     tooltip={{ text: `enter custom ${name} event data`, location: 'left' }}

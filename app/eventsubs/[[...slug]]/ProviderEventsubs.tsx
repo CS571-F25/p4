@@ -14,12 +14,14 @@ import EventButton from '@/components/eventsubs/EventButton';
 import ActivityLog from '@/components/eventsubs/ActivityLog';
 import GoalBlock from '@/components/eventsubs/GoalBlock';
 import Spinner from '@/components/Spinner';
+import DataFormModal from '@/components/eventsubs/DataFormModal';
 
 export default function ProviderEventsubs({ provider }: { provider: keyof typeof providers }) {
     const [orbtId, setOrbtId] = useState('');
     const [goals, setGoals] = useState<Record<string, { value: number; goal: number }>>({});
     const [widgetPreview, setWidgetPreview] = useState('');
     const [openModal, setOpenModal] = useState('');
+    const [testData, setTestData] = useState<Record<string, any> | null>(null);
 
     useEffect(() => {
         fetch('/api/user?provider=orbtId')
@@ -42,6 +44,11 @@ export default function ProviderEventsubs({ provider }: { provider: keyof typeof
                 setGoals(goals);
             });
     }, [orbtId, provider]);
+
+    useEffect(() => {
+        if (!testData) return setOpenModal('');
+        setOpenModal('test-event-data');
+    }, [testData]);
 
     function pastePreview() {
         navigator.clipboard.readText().then((text) => {
@@ -71,6 +78,15 @@ export default function ProviderEventsubs({ provider }: { provider: keyof typeof
                 </button>
             </span>
             <div id="goals-test-events" className="eventsubs-provider-container">
+                {testData && (
+                    <DataFormModal
+                        testData={testData}
+                        openModal={openModal}
+                        setOpenModal={setOpenModal}
+                        setTestData={setTestData}
+                        userId={orbtId}
+                    />
+                )}
                 <div id="test-events" className={`eventsubs-provider-box modal ${openModal === 'test-events' ? 'open' : ''}`}>
                     <TextBubble>{provider}: test events</TextBubble>
                     <div id="test-event-buttons">
@@ -87,6 +103,7 @@ export default function ProviderEventsubs({ provider }: { provider: keyof typeof
                                 event={name}
                                 userId={orbtId}
                                 onClick={() => setOpenModal('')}
+                                setTestData={setTestData}
                             />
                         ))}
                     </div>
