@@ -1,5 +1,5 @@
 'use client';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { signIn } from 'next-auth/react';
 
 import Spinner from '@/components/Spinner';
@@ -17,7 +17,7 @@ export default function ProviderButton({
     textStatus?: boolean;
 }) {
     const [isLoggedIn, setIsLoggedIn] = useState<boolean | null>(null);
-    const [username, setUsername] = useState<string>('');
+    const usernameRef = useRef<HTMLSpanElement>(null);
 
     useEffect(() => {
         async function fetchProviders() {
@@ -29,12 +29,22 @@ export default function ProviderButton({
                 }
                 const data = await response.json();
 
-                fetch(`/api/eventsub/service/${provider}/getUser?userId=${data[provider]}`)
-                    .then((res) => res.json())
-                    .then((data) => setUsername(data.broadcaster_name))
-                    .catch(() => setUsername(''));
-
                 setIsLoggedIn(!!provider && data[provider]);
+
+                if (data[provider]) {
+                    fetch(`/api/eventsub/service/${provider}/getUser?userId=${data[provider]}`)
+                        .then((res) => res.json())
+                        .then((userData) => {
+                            if (usernameRef.current) {
+                                usernameRef.current.textContent = userData.broadcaster_name || 'connected';
+                            }
+                        })
+                        .catch(() => {
+                            if (usernameRef.current) {
+                                usernameRef.current.textContent = 'connected';
+                            }
+                        });
+                }
             } catch (error) {
                 setIsLoggedIn(false);
             }
@@ -47,10 +57,16 @@ export default function ProviderButton({
 
     let background = <div className="provider-badge-inactive"></div>;
     if (isLoggedIn === null) {
-        background = <Spinner loading={true} className="my-[-1rem] mx-[-0.5rem] text-[var(--provider-color)]" />;
+        background = <Spinner loading={true} className="my-[-1rem] mx-[-0.5rem] !text-[var(--provider-color)]" />;
     } else if (isLoggedIn) {
         background = <Svg name="badge" className="provider-badge transition-transform" />;
     }
+
+    let textElement;
+    if (isLoggedIn === null) textElement = 'loading...';
+    else if (!isLoggedIn) textElement = 'not connected';
+    else if (usernameRef.current) textElement = usernameRef.current.textContent || 'connected';
+    else textElement = 'connected';
 
     return (
         <span className="provider-button-wrapper flex gap-4 items-center">
@@ -66,8 +82,8 @@ export default function ProviderButton({
                 <>
                     <span>{provider}</span>
                     <span>-</span>
-                    <span className="provider-text">
-                        {isLoggedIn === null ? 'loading...' : isLoggedIn ? username || 'loading...' : 'not connected'}
+                    <span ref={usernameRef} className="provider-text">
+                        {textElement}
                     </span>
                 </>
             )}
