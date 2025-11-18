@@ -498,4 +498,9 @@ iframe {
     #test-event-buttons {
         padding: 4rem 0.25rem 4rem 0.25rem;
     }
+
+    .event-button button {
+        background-color: var(--bg-dark);
+        color: var(--text);
+    }
 }
