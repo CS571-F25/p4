@@ -59,13 +59,6 @@ async function sendEventToUser(userId: string, event: EventType | SystemEventTyp
                 }).catch(() => {});
             }
 
-            // update the event text if applicable
-            if (formatter?.text?.[service]) {
-                if (typeof formatter.text[service] === 'function') {
-                    event.data.text = formatter.text[service](event.data);
-                }
-            }
-
             // update goals if applicable
             if ('goals' in eventSubData) {
                 event.data.goals = await goalsUpdate(userId, service, subscription as string, event, !!mock);

@@ -62,5 +62,8 @@ export function generateWithFormat(service: keyof typeof providers, formatter: a
         const format = typeof field.format === 'string' ? field.format.split('-')[0] : field.format;
         data[key] = generateData(service, format as keyof typeof dataTypes);
     }
+    if (formatter.text && typeof formatter.text[service] === 'function') {
+        data.text = formatter.text[service](data);
+    }
     return data;
 }
