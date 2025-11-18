@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 import SVG from '@/components/Svg';
 
-function ActivityDataBlock({
+export default function ActivityDataBlock({
     data,
     isFirst,
     isCollapsed,
@@ -39,5 +39,3 @@ function ActivityDataBlock({
         </div>
     );
 }
-
-export default ActivityDataBlock;
