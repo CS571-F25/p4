@@ -51,9 +51,25 @@ export async function GET(req: NextRequest) {
         }
     }, 30000);
 
-    // Remove client on disconnect
-    req.signal.addEventListener('abort', () => {
+    // Cleanup function to send disconnect event and remove client
+    const cleanup = async () => {
         clearInterval(keepaliveInterval);
+
+        // Send disconnect event before closing
+        try {
+            const disconnectEvent = `data: ${JSON.stringify({
+                service: 'orbt',
+                subscription: 'disconnected',
+                data: {
+                    message: 'Client disconnecting',
+                },
+            })}\n\n`;
+            await writer.write(encoder.encode(disconnectEvent));
+        } catch (e) {
+            // Ignore write errors on disconnect
+        }
+
+        // Remove from clients map
         for (const providerId of [userId, ...providerIds]) {
             if (clients[providerId]) {
                 clients[providerId].delete(writer);
@@ -62,8 +78,16 @@ export async function GET(req: NextRequest) {
                 }
             }
         }
-        writer.close();
-    });
+
+        try {
+            await writer.close();
+        } catch (e) {
+            // Ignore close errors
+        }
+    };
+
+    // Remove client on disconnect
+    req.signal.addEventListener('abort', cleanup);
 
     return new Response(stream.readable, {
         headers: {
