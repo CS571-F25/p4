@@ -21,7 +21,7 @@ export default function Tooltip({
 
     return (
         <div
-            className="relative inline-block overflow-visible"
+            className="relative inline-block w-fit overflow-visible"
             onMouseEnter={() => setVisible(true)}
             onMouseLeave={() => setVisible(false)}
             onFocus={() => setVisible(true)}
