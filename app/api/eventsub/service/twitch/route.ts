@@ -34,24 +34,32 @@ export async function POST(req: NextRequest) {
             { new: true, upsert: false }
         );
         const subscription = providers.twitch.eventsub[body.subscription.type as keyof typeof providers.twitch.eventsub];
-        const goal = subscription && 'goal' in subscription ? subscription.goal : null;
-        if (goal) {
+        const goals = subscription && 'goals' in subscription ? subscription.goals : null;
+        goals?.forEach(async (goal) => {
+            const userId =
+                body.subscription.condition.broadcaster_user_id ?? body.subscription.condition.to_broadcaster_user_id;
             await WidgetGoal.findOneAndUpdate(
                 {
                     provider: 'twitch',
-                    userId:
-                        body.subscription.condition.broadcaster_user_id ?? body.subscription.condition.to_broadcaster_user_id,
-                    goalType: goal,
-                    values: {
-                        session: { value: 0 },
-                        weekly: { value: 0 },
-                        monthly: { value: 0 },
-                        total: { value: 0 },
+                    userId: userId,
+                    goalType: goal.name,
+                },
+                {
+                    $setOnInsert: {
+                        provider: 'twitch',
+                        userId: userId,
+                        goalType: goal.name,
+                        values: {
+                            session: { value: 0 },
+                            weekly: { value: 0 },
+                            monthly: { value: 0 },
+                            total: { value: 0 },
+                        },
                     },
                 },
-                { new: true, upsert: true }
+                { upsert: true, new: true }
             );
-        }
+        });
         return new NextResponse(body.challenge, { status: 200, headers: { 'Content-Type': 'text/plain' } });
     }
 
