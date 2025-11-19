@@ -68,6 +68,6 @@
             "channel.hype_train.progress": { "version": "1", "event": "hypetrainProgress" },
             "channel.hype_train.end": { "version": "1", "event": "hypetrainEnd" }
         },
-        "goals": ["follower", "subscription", "cheer"]
+        "goals": ["follower", "partnerPlus", "subscription", "cheer"]
     }
 }
