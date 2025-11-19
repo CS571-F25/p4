@@ -4,7 +4,7 @@ export default function GoalBlock({ name, value, goal, i }: { name: string; valu
     const [charLength, setCharLength] = useState(goal.toString().length);
 
     return (
-        <div className="goal-block" style={{ '--goal-index': i } as React.CSSProperties}>
+        <div className="goal-block fade-in" style={{ '--index': i } as React.CSSProperties}>
             <h3>
                 {name
                     .split(/(?=[A-Z])/)
