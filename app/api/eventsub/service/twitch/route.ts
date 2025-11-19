@@ -1,7 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 import connect from '@/mongo/db';
 import WidgetUser from '@/mongo/models/WidgetUser';
+import WidgetGoal from '@/mongo/models/WidgetGoal';
 import { sendEventToUser } from '../../connect/utils/sendEventToUser';
+import providers from '@/data/providers.json';
 
 export const dynamic = 'force-dynamic';
 export const revalidate = 0;
@@ -31,6 +33,25 @@ export async function POST(req: NextRequest) {
             },
             { new: true, upsert: false }
         );
+        const subscription = providers.twitch.eventsub[body.subscription.type as keyof typeof providers.twitch.eventsub];
+        const goal = subscription && 'goal' in subscription ? subscription.goal : null;
+        if (goal) {
+            await WidgetGoal.findOneAndUpdate(
+                {
+                    provider: 'twitch',
+                    userId:
+                        body.subscription.condition.broadcaster_user_id ?? body.subscription.condition.to_broadcaster_user_id,
+                    goalType: goal,
+                    values: {
+                        session: { value: 0 },
+                        weekly: { value: 0 },
+                        monthly: { value: 0 },
+                        total: { value: 0 },
+                    },
+                },
+                { new: true, upsert: true }
+            );
+        }
         return new NextResponse(body.challenge, { status: 200, headers: { 'Content-Type': 'text/plain' } });
     }
 
