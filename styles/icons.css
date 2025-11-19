@@ -1,5 +1,5 @@
 #icons-page {
-    --size: 2rem;
+    --size: 3rem;
 
     width: 100%;
 }
@@ -21,7 +21,7 @@
 #icons-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(var(--size), 1fr));
-    gap: calc(var(--size) * 1.5);
+    gap: calc(var(--size) / 2);
 
     width: 100%;
 }
@@ -33,12 +33,29 @@
 
     width: var(--size);
     height: var(--size);
-    box-sizing: content-box;
+    padding: 0.5rem;
+    box-sizing: border-box;
 
     border-radius: 100vh;
+}
+
+.card svg {
+    width: calc(var(--size) / 2);
+    height: calc(var(--size) / 2);
 }
 
 .icon-item {
     --stagger: 0.2s;
     --duration: 0.8s;
+}
+
+@media (max-width: 600px) {
+    #icons-page {
+        --size: 2.5rem;
+    }
+
+    #icons-page header input {
+        width: 100%;
+        max-width: 600px;
+    }
 }

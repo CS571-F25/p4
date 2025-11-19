@@ -55,7 +55,7 @@ export default function IconsPage() {
                     These are the icons available for widgets that support use of icons. Click an icon to copy its exact name to
                     your clipboard for use.
                 </p>
-                <span className="flex items-center gap-2">
+                <span className="flex w-full items-center justify-center gap-2">
                     <input
                         type="text"
                         placeholder="search icons or tags"
