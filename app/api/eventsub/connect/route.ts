@@ -3,9 +3,6 @@ import connect from '@/mongo/db';
 import WidgetUser from '@/mongo/models/WidgetUser';
 import { clients, sendEventToUser } from './utils/sendEventToUser';
 
-export const dynamic = 'force-dynamic';
-export const maxDuration = 300; // 5 minutes (max for Pro plan)
-
 // SSE endpoint for clients to connect and receive real-time events
 export async function GET(req: NextRequest) {
     const { searchParams } = new URL(req.url);
