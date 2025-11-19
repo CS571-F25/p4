@@ -3,6 +3,9 @@ import connect from '@/mongo/db';
 import WidgetUser from '@/mongo/models/WidgetUser';
 import { clients, sendEventToUser } from './utils/sendEventToUser';
 
+export const runtime = 'edge';
+export const dynamic = 'force-dynamic';
+
 // SSE endpoint for clients to connect and receive real-time events
 export async function GET(req: NextRequest) {
     const { searchParams } = new URL(req.url);
@@ -42,8 +45,18 @@ export async function GET(req: NextRequest) {
     const encoder = new TextEncoder();
     writer.write(encoder.encode('retry: 10000\n\n'));
 
+    // Send keepalive comment every 30 seconds to prevent timeout
+    const keepaliveInterval = setInterval(() => {
+        try {
+            writer.write(encoder.encode(': keepalive\n\n'));
+        } catch (e) {
+            clearInterval(keepaliveInterval);
+        }
+    }, 30000);
+
     // Remove client on disconnect
     req.signal.addEventListener('abort', () => {
+        clearInterval(keepaliveInterval);
         for (const providerId of [userId, ...providerIds]) {
             if (clients[providerId]) {
                 clients[providerId].delete(writer);
@@ -58,8 +71,9 @@ export async function GET(req: NextRequest) {
     return new Response(stream.readable, {
         headers: {
             'Content-Type': 'text/event-stream',
-            'Cache-Control': 'no-cache',
+            'Cache-Control': 'no-cache, no-transform',
             Connection: 'keep-alive',
+            'X-Accel-Buffering': 'no',
         },
     });
 }
