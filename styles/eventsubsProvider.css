@@ -266,7 +266,7 @@ iframe {
     width: 100%;
 
     opacity: 0;
-    animation: entry-in 1s ease forwards;
+    animation: fade-in 1s ease forwards;
     animation-delay: calc(var(--goal-index) * 0.3s);
 }
 
