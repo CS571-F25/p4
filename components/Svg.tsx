@@ -17,7 +17,9 @@ export default function Svg({
 
     if (!icon) return null;
 
-    let svgElement = <span className={`icon ${className}`} dangerouslySetInnerHTML={{ __html: icon }} />;
+    let svgElement = (
+        <span className={`icon flex items-center justify-center w-fit h-fit ${className}`} dangerouslySetInnerHTML={{ __html: icon }} />
+    );
     if (tooltip) {
         return <Tooltip {...tooltip}>{svgElement}</Tooltip>;
     }
