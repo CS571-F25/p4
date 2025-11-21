@@ -456,24 +456,29 @@ iframe {
     }
 
     .modal {
-        display: none !important;
+        --border-width: 2px;
         position: fixed;
         z-index: 4 !important;
         top: 0;
         left: 0;
+        translate: -100% 0;
 
-        width: 100%;
+        width: calc(100% + var(--border-width));
         height: 100%;
         min-height: 100vh;
         border-radius: 0;
         padding: 10rem 1rem;
         box-sizing: border-box;
 
+        border-right: var(--border-width) solid var(--bg-dark);
+
         background-color: var(--text) !important;
+
+        transition: translate 0.2s ease-in-out;
     }
 
     .modal.open {
-        display: flex !important;
+        translate: 0 0;
     }
 
     .eventsubs-provider-box#widget-preview {
