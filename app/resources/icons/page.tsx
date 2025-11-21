@@ -63,11 +63,11 @@ export default function IconsPage() {
                         onChange={(e) => setSearch(e.target.value)}
                     />
                     <button className="flex items-center" onClick={() => setSearch('')}>
-                        <SVG name="mark-x" tooltip={{ text: 'clear search', location: 'right' }} />
+                        <SVG name="mark-x" tooltip={{ text: 'clear search', location: 'left' }} />
                     </button>
                 </span>
             </header>
-            <div id="icons-grid" className="">
+            <div id="icons-grid">
                 {icons.map((icon, i) => (
                     <IconCard key={i} {...icon} matches={iconMatchesSearch(icon)} />
                 ))}
