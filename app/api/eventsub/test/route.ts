@@ -30,7 +30,7 @@ export async function POST(req: NextRequest) {
 
     const mockData = data ?? generateWithFormat(service, formatter);
 
-    await sendEventToUser(userId, { service, subscription: subscriptionType, mock: true, data: mockData }).catch((err) => {
+    await sendEventToUser(userId, { userId, service, subscription: subscriptionType, mock: true, data: mockData }).catch((err) => {
         return new NextResponse(`Failed to send event: ${err.message}`, { status: 500 });
     });
 
