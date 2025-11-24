@@ -32,26 +32,36 @@ export default function GoalDataBlock({
 
     return (
         <div className="goal-block fade-in" style={{ '--index': i } as React.CSSProperties}>
-            <h3>
-                {name
-                    .split(/(?=[A-Z])/)
-                    .join(' ')
-                    .toLowerCase()}
-                {changed && '*'}
-            </h3>
-            <span className="goal-data">
-                <p>{values.total.value.toLocaleString()}</p>
-                <p>/</p>
-                <input
-                    value={isFocused ? goal : formatNumber(goal)}
-                    onFocus={() => setIsFocused(true)}
-                    onBlur={() => setIsFocused(false)}
-                    onChange={(e) => {
-                        const newValue = Number(e.target.value);
-                        if (isNaN(newValue)) return;
-                        setGoal(newValue);
-                    }}
-                />
+            <span className="goal-header">
+                <h3>
+                    {name
+                        .split(/(?=[A-Z])/)
+                        .join(' ')
+                        .toLowerCase()}
+                    {changed && '*'}
+                </h3>
+                <span className="goal-data">
+                    <p>{values.total.value.toLocaleString()}</p>
+                    <p>/</p>
+                    <input
+                        value={isFocused ? goal : formatNumber(goal)}
+                        onFocus={() => setIsFocused(true)}
+                        onBlur={() => setIsFocused(false)}
+                        onChange={(e) => {
+                            const newValue = Number(e.target.value);
+                            if (isNaN(newValue)) return;
+                            setGoal(newValue);
+                        }}
+                    />
+                </span>
+            </span>
+            <span className="goal-subdata">
+                {Object.entries(values).map(([key, value]) => (
+                    <span key={key} className="goal-subdata-item">
+                        <span>{key}</span>
+                        <span>{value.value.toLocaleString()}</span>
+                    </span>
+                ))}
             </span>
         </div>
     );

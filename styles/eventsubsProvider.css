@@ -245,8 +245,15 @@ iframe {
     font-size: var(--text-xs);
 }
 
-.goals-header p {
-    font-size: var(--text-xxs);
+.goals-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.goals-header svg {
+    width: var(--text-xxs);
+    height: var(--text-xxs);
 }
 
 .goals-body {
@@ -267,27 +274,29 @@ iframe {
 
 #goals,
 .goals-body,
-.goals-buttons {
+.goals-body-block {
     justify-content: space-between;
     gap: 0.25rem;
 }
 
 .goal-block,
 .goal-data {
+    position: relative;
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
 }
 
-.goal-block {
+.goal-block,
+.goal-subdata {
     --stagger: 0.3s;
     --duration: 1s;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
     width: 100%;
-    box-sizing: border-box;
     border-radius: 1.5rem;
-
-    transition: border 0.1s ease-in-out;
 }
 
 .goal-block:has(input:focus-within) {
@@ -304,8 +313,31 @@ iframe {
     translate: 0.5rem 0;
 }
 
+.goal-header,
+.goal-subdata-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    width: 100%;
+}
+
+.goal-subdata {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease-in-out;
+}
+
+.goal-block:has(input:focus-within) .goal-subdata {
+    max-height: 100vh;
+}
+
 .goal-data {
     width: 50%;
+}
+
+.goal-subdata-item {
+    padding-inline: 1rem;
+    justify-content: space-between;
 }
 
 .goal-data p {
@@ -340,6 +372,7 @@ iframe {
     overflow-x: visible;
 }
 
+#goals ::-webkit-scrollbar,
 #activity-log::-webkit-scrollbar {
     display: none;
 }
