@@ -4,6 +4,7 @@ import providers from '@/data/providers.json';
 import { useGoals } from '@/contexts/GoalContext';
 import { useUser } from '@/contexts/UserContext';
 
+import SVG from '@/components/Svg';
 import GoalDataBlock from '@/components/eventsubs/GoalDataBlock';
 import Spinner from '@/components/Spinner';
 
@@ -74,8 +75,7 @@ export default function GoalLog({ provider }: { provider: keyof typeof providers
     return (
         <>
             <span className="goals-header">
-                <h2>manage goals</h2>
-                <p>goals apply to all widgets</p>
+                <h2>manage goals</h2> <SVG name="planet" tooltip={{ text: 'goals apply to all widgets' }} />
             </span>
             <span className="goals-body">
                 <span className="goals-body-block overflow-y-auto">
