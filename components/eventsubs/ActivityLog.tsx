@@ -1,6 +1,9 @@
 import { useState, useEffect, useRef } from 'react';
 
 import providers from '@/data/providers.json';
+import { Goal } from '@/types/Goal';
+import { useGoals } from '@/contexts/GoalContext';
+import { useUser } from '@/contexts/UserContext';
 
 import TextBubble from '@/components/TextBubble';
 import SVG from '@/components/Svg';
@@ -16,6 +19,8 @@ interface ActivityLogEntry {
 }
 
 export default function ActivityLog() {
+    const { user } = useUser();
+    const { updateGoalValue } = useGoals();
     const [activityLog, setActivityLog] = useState<ActivityLogEntry[]>([]);
     const [collapsed, setCollapsed] = useState<{ [key: string]: boolean }>({});
     const eventSourceRef = useRef<EventSource | null>(null);
@@ -38,31 +43,26 @@ export default function ActivityLog() {
     };
 
     useEffect(() => {
-        if (eventSourceRef.current) return;
+        if (eventSourceRef.current || !user?.orbtId) return;
 
-        fetch('/api/user?provider=orbtId')
-            .then((res) => res.json())
-            .then((data) => {
-                if (!data.userId) return;
-                // Double-check we haven't connected in the meantime
-                if (eventSourceRef.current) return;
+        const es = new EventSource(`/api/eventsub/connect?userId=${user.orbtId}`);
+        eventSourceRef.current = es;
 
-                const es = new EventSource(`/api/eventsub/connect?userId=${data.userId}`);
-                eventSourceRef.current = es;
+        es.onmessage = (event) => {
+            const parsedData = JSON.parse(event.data);
+            const goals = parsedData.data.goals as Record<string, Record<keyof Goal['values'], number>>;
+            const id = `${Date.now()}-${Math.random()}`;
+            setActivityLog((prev) => [{ ...parsedData, id, timestamp: Date.now() }, ...prev]);
 
-                es.onmessage = (event) => {
-                    const parsedData = JSON.parse(event.data);
-                    const id = `${Date.now()}-${Math.random()}`;
-                    setActivityLog((prev) => [{ ...parsedData, id, timestamp: Date.now() }, ...prev]);
-                };
-
-                es.onerror = () => {
-                    console.error('EventSource connection error');
-                };
-            })
-            .catch((error) => {
-                console.error('Failed to fetch user data:', error);
+            if (!goals) return;
+            Object.entries(goals).forEach(([goalType, goalData]) => {
+                updateGoalValue(goalType, goalData);
             });
+        };
+
+        es.onerror = () => {
+            console.error('EventSource connection error');
+        };
 
         return () => {
             if (eventSourceRef.current) {
@@ -70,7 +70,7 @@ export default function ActivityLog() {
                 eventSourceRef.current = null;
             }
         };
-    }, []);
+    }, [user?.orbtId]);
 
     return (
         <>

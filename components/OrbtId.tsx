@@ -1,26 +1,21 @@
 'use client';
 import { useState, useEffect } from 'react';
 
+import { useUser } from '@/contexts/UserContext';
 import Clipboard from '@/components/Clipboard';
 import SVG from '@/components/Svg';
 
 export default function OrbtId({ color = 'dark', compact = false }: { color?: 'dark' | 'light'; compact?: boolean }) {
+    const { user, loading } = useUser();
     const [hidden, setHidden] = useState<boolean | null>(null);
-    const [orbtId, setOrbtId] = useState('loading...');
+
+    const orbtId = loading ? 'loading...' : user?.orbtId || 'failed to load';
 
     useEffect(() => {
-        fetch('/api/user?provider=orbtId')
-            .then((res) => res.json())
-            .then((data) => {
-                if (data.userId) {
-                    setHidden(true);
-                    setOrbtId(data.userId);
-                }
-            })
-            .catch(() => {
-                setOrbtId('failed to load');
-            });
-    }, []);
+        if (user?.orbtId) {
+            setHidden(true);
+        }
+    }, [user]);
 
     function showOrbtId() {
         if (hidden === null) return;

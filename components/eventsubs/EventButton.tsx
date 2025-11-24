@@ -2,22 +2,24 @@ import React from 'react';
 import providers from '@/data/providers.json';
 
 import SVG from '@/components/Svg';
+import { useUser } from '@/contexts/UserContext';
 
 export default function EventButton({
     provider,
     event,
     name,
-    userId,
     onClick,
     setTestData,
 }: {
     provider: keyof typeof providers;
     event: string;
     name: string;
-    userId: string;
     onClick: () => void;
     setTestData: (data: any) => void;
 }) {
+    const { user } = useUser();
+    const userId = user?.providers[provider] || '';
+
     function primaryClick() {
         onClick();
         fetch('/api/eventsub/test', {

@@ -12,6 +12,7 @@ export const metadata: Metadata = {
 import NavBar from '@/components/NavBar';
 import Logo from '@/components/Logo';
 import Footer from '@/components/Footer';
+import ClientProviders from './ClientProviders';
 
 export default function RootLayout({
     children,
@@ -22,12 +23,14 @@ export default function RootLayout({
         <html lang="en">
             <head />
             <body className="antialiased min-h-screen">
-                <NavBar />
-                <main>
-                    <Logo />
-                    {children}
-                </main>
-                <Footer />
+                <ClientProviders>
+                    <NavBar />
+                    <main>
+                        <Logo />
+                        {children}
+                    </main>
+                    <Footer />
+                </ClientProviders>
             </body>
         </html>
     );

@@ -3,8 +3,6 @@ import '@/styles/eventsubsProvider.css';
 
 import providers from '@/data/providers.json';
 
-import { Goal } from '@/types/Goal';
-
 import SVG from '@/components/Svg';
 import Clipboard from '@/components/Clipboard';
 import OrbtId from '@/components/OrbtId';
@@ -12,38 +10,13 @@ import OrbtId from '@/components/OrbtId';
 import TextBubble from '@/components/TextBubble';
 import EventButton from '@/components/eventsubs/EventButton';
 import ActivityLog from '@/components/eventsubs/ActivityLog';
-import GoalBlock from '@/components/eventsubs/GoalBlock';
-import Spinner from '@/components/Spinner';
+import GoalLog from '@/components/eventsubs/GoalLog';
 import DataFormModal from '@/components/eventsubs/DataFormModal';
 
 export default function ProviderEventsubs({ provider }: { provider: keyof typeof providers }) {
-    const [orbtId, setOrbtId] = useState('');
-    const [goals, setGoals] = useState<Record<string, { value: number; goal: number }>>({});
     const [widgetPreview, setWidgetPreview] = useState('');
     const [openModal, setOpenModal] = useState('');
     const [testData, setTestData] = useState<Record<string, any> | null>(null);
-
-    useEffect(() => {
-        fetch('/api/user?provider=orbtId')
-            .then((res) => res.json())
-            .then((data) => {
-                if (!data.userId) return;
-                setOrbtId(data.userId);
-            });
-    }, []);
-
-    useEffect(() => {
-        if (!orbtId || !provider) return;
-        fetch(`/api/eventsub/goals?orbtId=${orbtId}&service=${provider}`)
-            .then((res) => res.json())
-            .then((data) => {
-                const goals: Record<string, { value: number; goal: number }> = {};
-                data.forEach((goal: Goal) => {
-                    goals[goal.goalType] = { value: goal.values.total.value, goal: 100 };
-                });
-                setGoals(goals);
-            });
-    }, [orbtId, provider]);
 
     useEffect(() => {
         if (!testData) return setOpenModal('');
@@ -84,7 +57,6 @@ export default function ProviderEventsubs({ provider }: { provider: keyof typeof
                         openModal={openModal}
                         setOpenModal={setOpenModal}
                         setTestData={setTestData}
-                        userId={orbtId}
                     />
                 )}
                 <div id="test-events" className={`eventsubs-provider-box modal ${openModal === 'test-events' ? 'open' : ''}`}>
@@ -101,7 +73,6 @@ export default function ProviderEventsubs({ provider }: { provider: keyof typeof
                                         .toLowerCase() || name
                                 }
                                 event={name}
-                                userId={orbtId}
                                 onClick={() => setOpenModal('')}
                                 setTestData={setTestData}
                             />
@@ -109,16 +80,7 @@ export default function ProviderEventsubs({ provider }: { provider: keyof typeof
                     </div>
                 </div>
                 <div id="goals" className={`eventsubs-provider-box modal ${openModal === 'goals' ? 'open' : ''}`}>
-                    <span className="goals-header">
-                        <h2>manage goals</h2>
-                        <p>goals apply to all widgets</p>
-                    </span>
-                    <span className="goals-body">
-                        <Spinner loading={!Object.entries(goals).length} />
-                        {Object.entries(goals).map(([name, { value, goal }], i) => (
-                            <GoalBlock key={i} name={name} value={value} goal={goal} i={i} />
-                        ))}
-                    </span>
+                    <GoalLog provider={provider} />
                 </div>
             </div>
             <div id="widget-preview" className="eventsubs-provider-box">

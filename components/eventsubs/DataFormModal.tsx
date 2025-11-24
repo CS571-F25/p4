@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useUser } from '@/contexts/UserContext';
 
 import SVG from '@/components/Svg';
 import DataForm from '@/components/eventsubs/DataForm';
@@ -8,14 +9,15 @@ export default function DataFormModal({
     openModal,
     setOpenModal,
     setTestData,
-    userId,
 }: {
     testData: Record<string, any>;
     openModal: string;
     setOpenModal: (modal: string) => void;
     setTestData: (data: Record<string, any> | null) => void;
-    userId: string;
 }) {
+    const { user } = useUser();
+    const userId = user?.orbtId ?? '';
+
     const { data, service, subscription, event } = testData;
     const [currentData, setCurrentData] = useState(testData.data);
 
