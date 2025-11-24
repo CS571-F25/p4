@@ -5,6 +5,7 @@ const WidgetGoal = new mongoose.Schema({
     userId: String,
     goalType: String,
     goal: Number,
+    mockValue: Number,
     values: {
         total: {
             value: { type: Number, default: 0 },

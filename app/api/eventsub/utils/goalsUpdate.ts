@@ -63,13 +63,14 @@ export default async function goalsUpdate(userId: string, service: string, subsc
                         'values.weekly.value': value,
                         'values.monthly.value': value,
                         'values.session.value': value,
+                        mockValue: mock ? mockValue : 0,
                     },
                 },
                 { upsert: true, new: true }
             );
 
             goalsData[name] = Object.fromEntries(
-                Object.entries(goals.values).map(([key, obj]) => [key, (obj as { value: number }).value])
+                Object.entries(goals.values).map(([key, obj]) => [key, (obj as { value: number }).value + goals.mockValue])
             );
             if (mock) goalsData[name].mockValue = mockValue;
         })

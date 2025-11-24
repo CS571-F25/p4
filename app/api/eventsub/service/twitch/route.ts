@@ -38,6 +38,7 @@ export async function POST(req: NextRequest) {
         goals?.forEach(async (goal) => {
             const userId =
                 body.subscription.condition.broadcaster_user_id ?? body.subscription.condition.to_broadcaster_user_id;
+            const defaultGoal = providers.twitch.goals[goal.name as keyof typeof providers.twitch.goals]?.default || 0;
             await WidgetGoal.findOneAndUpdate(
                 {
                     provider: 'twitch',
@@ -49,6 +50,7 @@ export async function POST(req: NextRequest) {
                         provider: 'twitch',
                         userId: userId,
                         goalType: goal.name,
+                        goal: defaultGoal,
                         values: {
                             session: { value: 0 },
                             weekly: { value: 0 },
