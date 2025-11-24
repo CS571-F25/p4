@@ -64,7 +64,7 @@ iframe {
     border-radius: 2rem;
     background-color: var(--text);
     color: var(--bg-dark);
-    padding: 1rem;
+    padding: 0.5rem;
 
     height: 100vh;
     max-height: calc(100vh - 8rem);
@@ -215,6 +215,7 @@ iframe {
     }
 }
 
+#goals button,
 .event-button button {
     border-radius: 100vh;
     padding: 0.5rem 1rem;
@@ -223,6 +224,13 @@ iframe {
 
     background-color: var(--primary);
     color: var(--bg-dark);
+}
+
+#goals button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
 }
 
 .event-button button.primary-button {
@@ -234,12 +242,7 @@ iframe {
 }
 
 #goals {
-    justify-content: flex-start;
     font-size: var(--text-xs);
-}
-
-.goals-header {
-    margin-bottom: 0.5rem;
 }
 
 .goals-header p {
@@ -251,7 +254,22 @@ iframe {
     flex-direction: column;
     align-items: center;
     width: 90%;
-    overflow-y: auto;
+    height: 100%;
+    overflow: hidden;
+}
+
+.goals-body-block {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+#goals,
+.goals-body,
+.goals-buttons {
+    justify-content: space-between;
+    gap: 0.25rem;
 }
 
 .goal-block,
@@ -266,28 +284,50 @@ iframe {
     --stagger: 0.3s;
     --duration: 1s;
     width: 100%;
+    box-sizing: border-box;
+    border-radius: 1.5rem;
+
+    transition: border 0.1s ease-in-out;
+}
+
+.goal-block:has(input:focus-within) {
+    border: 2px solid var(--bg-superdark);
 }
 
 .goal-block h3 {
     flex: 1;
     text-align: left;
+    transition: translate 0.1s ease-in-out;
+}
+
+.goal-block:has(input:focus-within) h3 {
+    translate: 0.5rem 0;
 }
 
 .goal-data {
-    width: 40%;
+    width: 50%;
 }
 
 .goal-data p {
     flex: 1;
 }
 
+.goal-data p:first-child {
+    text-align: left;
+}
+
 .goal-data input {
-    width: calc(var(--char-length) * 1ch + 3rem);
+    width: 6rem;
     background-color: var(--bg-dark);
     color: var(--text);
     font-size: inherit;
     border-radius: 100vh;
     padding: 0.25rem 0.5rem;
+}
+
+#goals button {
+    background-color: var(--bg-dark);
+    color: var(--text);
 }
 
 #activity-log {
