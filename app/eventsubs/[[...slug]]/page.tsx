@@ -5,9 +5,9 @@ import '@/styles/eventsubs.css';
 import { usePathname, useRouter } from 'next/navigation';
 
 import ProviderButton from '@/components/main/ProviderButton';
-import SVG from '@/components/Svg';
 import OrbtId from '@/components/OrbtId';
 import ProviderEventsubs from './ProviderEventsubs';
+import { GoalProvider } from '@/contexts/GoalContext';
 
 import providers from '@/data/providers.json';
 
@@ -26,8 +26,13 @@ function NoProviderEventsubs() {
             </p>
             <p>select one of your connected services to get started</p>
             <div id="provider-container">
-                {Object.entries(providers).map(([provider, {color}], i) => (
-                    <ProviderButton key={i} provider={provider} color={color} onClick={() => setSelectedProvider(provider as keyof typeof providers)} />
+                {Object.entries(providers).map(([provider, { color }], i) => (
+                    <ProviderButton
+                        key={i}
+                        provider={provider}
+                        color={color}
+                        onClick={() => setSelectedProvider(provider as keyof typeof providers)}
+                    />
                 ))}
             </div>
             <OrbtId />
@@ -43,5 +48,9 @@ export default function Eventsubs() {
         return <NoProviderEventsubs />;
     }
 
-    return <ProviderEventsubs provider={selectedProvider as keyof typeof providers} />;
+    return (
+        <GoalProvider>
+            <ProviderEventsubs provider={selectedProvider as keyof typeof providers} />
+        </GoalProvider>
+    );
 }
