@@ -8,6 +8,7 @@ interface UserData {
     userId: string;
 }
 
+// POST endpoint to set a cookie tracking the user's internal ID based on a provided external provider ID
 export async function POST(request: Request) {
     const { provider, providerId } = await request.json();
     if (!provider) return NextResponse.json({ error: 'Provider is required' }, { status: 400 });
@@ -32,4 +33,11 @@ export async function POST(request: Request) {
     });
 
     return NextResponse.json({ userId: userData.userId, provider, providerId: providerId }, { status: 200 });
+}
+
+// DELETE endpoint to clear the userId cookie
+export async function DELETE() {
+    const cookieStore = await cookies();
+    cookieStore.delete('userId');
+    return NextResponse.json({ message: 'User ID cookie cleared' }, { status: 200 });
 }
