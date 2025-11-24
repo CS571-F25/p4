@@ -48,7 +48,7 @@
                     { "name": "partnerPlus", "value": "subPoints" }
                 ]
             },
-            "channel.cheer": { "version": "1", "event": "cheer", "goals": [{ "name": "cheer", "value": 1 }] },
+            "channel.cheer": { "version": "1", "event": "cheer", "goals": [{ "name": "cheer", "value": "value" }] },
             "channel.raid": { "version": "1", "event": "raid" },
             "channel.channel_points_custom_reward_redemption.add": { "version": "1", "event": "channelPointsRedemption" },
             "channel.channel_points_automatic_reward_redemption.add": {
@@ -68,6 +68,11 @@
             "channel.hype_train.progress": { "version": "1", "event": "hypetrainProgress" },
             "channel.hype_train.end": { "version": "1", "event": "hypetrainEnd" }
         },
-        "goals": ["follower", "partnerPlus", "subscription", "cheer"]
+        "goals": {
+            "follower": { "default": 100 },
+            "subscription": { "default": 50 },
+            "partnerPlus": { "default": 100 },
+            "cheer": { "default": 5000 }
+        }
     }
 }
