@@ -9,7 +9,7 @@ export default function OrbtId({ color = 'dark', compact = false }: { color?: 'd
     const { user, loading } = useUser();
     const [hidden, setHidden] = useState<boolean | null>(null);
 
-    const orbtId = loading ? 'loading...' : user?.orbtId || 'failed to load';
+    const orbtId = loading ? 'loading...' : user?.orbtId || 'not connected';
 
     useEffect(() => {
         if (user?.orbtId) {
