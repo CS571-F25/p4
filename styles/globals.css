@@ -357,6 +357,7 @@ input {
 
 .logo-text {
     line-height: 1;
+    white-space: nowrap;
 }
 
 /* ----------------- global components ----------------- */
