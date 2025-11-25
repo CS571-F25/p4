@@ -21,9 +21,12 @@ export default function Connections() {
                     <ProviderButton key={i} provider={provider} color={color} textStatus={true} />
                 ))}
             </div>
-            <button id="log-out" onClick={logOut}>
-                log out (does not delete connected services)
-            </button>
+            <span className="mt-2">
+                <button id="log-out" className="button" onClick={logOut}>
+                    log out
+                </button>
+                <p className="text-xxs">logging out does not delete connected services</p>
+            </span>
         </div>
     );
 }
