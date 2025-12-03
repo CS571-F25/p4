@@ -59,7 +59,7 @@
 
 .feature-card {
     perspective: 1000px;
-    width: clamp(160px, 20vw, 240px);
+    width: clamp(160px, 20vw, 320px);
     aspect-ratio: 1 / 1;
 }
 
