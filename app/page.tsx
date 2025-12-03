@@ -6,19 +6,20 @@ import Feature from '@/components/index/Feature';
 const features = [
     {
         title: 'multi-platform support',
-        description: 'orbt widgets support events from multiple platforms like Twitch, YouTube, and more.',
-        imgSrc: 'https://i.etsystatic.com/17233766/r/il/a8c546/6959385544/il_1588xN.6959385544_p8sv.jpg',
+        description: 'orbt widgets support combined events from multiple platforms like Twitch, YouTube, and more.',
+        imgSrc: '/images/f1.png',
     },
     {
-        title: 'feature rich',
-        description: 'orbt widgets support a wide range of events and can be easily customized to fit your needs.',
-        imgSrc: 'https://i.etsystatic.com/17233766/r/il/a8c546/6959385544/il_1588xN.6959385544_p8sv.jpg',
+        title: 'smart features',
+        description:
+            'orbt includes many helpful features like chatbot interactions, intuitive tools for testing and managing widgets, and customization options.',
+        imgSrc: '/images/f2.png',
     },
     {
         title: 'consistent settings',
         description: 'orbt widgets allow for consistent themes and goals that can easily be updated across all widgets.',
-        imgSrc: 'https://i.etsystatic.com/17233766/r/il/a8c546/6959385544/il_1588xN.6959385544_p8sv.jpg',
-    }
+        imgSrc: '/images/f3.png',
+    },
 ];
 
 export default function Orbt() {
