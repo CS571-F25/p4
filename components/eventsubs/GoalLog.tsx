@@ -79,7 +79,7 @@ export default function GoalLog({ provider }: { provider: keyof typeof providers
             </span>
             <span className="goals-body">
                 <span className="goals-body-block overflow-y-auto">
-                    <Spinner loading={!goals.length} />
+                    {orbtId && <Spinner loading={!goals.length} />}
                     {goals.map((goal, i) => {
                         const goalValues = getGoal(goal.goalType);
                         if (!goalValues) return null;
