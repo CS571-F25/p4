@@ -19,6 +19,12 @@ export function processFormatter(formatter: any, event: any, service: string): a
         return undefined;
     }
 
+    // If this node has a service path that is a function, execute it
+    if (service in formatter && typeof formatter[service] === 'function') {
+        const processedData = processFormatter(formatter, event, service);
+        return formatter[service](processedData);
+    }
+
     // Otherwise, recursively process children
     const result: any = {};
     for (const key in formatter) {
