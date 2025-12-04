@@ -1,13 +1,13 @@
-export function processFormatter(formatter: any, event: any, service: string): any {
+function processFormatterHelper(formatter: any, event: any, service: string): any {
     if (typeof formatter !== 'object' || formatter === null) return formatter;
-    if (Array.isArray(formatter)) return formatter.map((f) => processFormatter(f, event, service));
+    if (Array.isArray(formatter)) return formatter.map((f) => processFormatterHelper(f, event, service));
 
     // Handle array format with 'items'
     if (formatter.format === 'array' && service in formatter && formatter.items) {
         const path = formatter[service];
         let arr = Array.isArray(path) ? path.reduce((val, key) => (val ? val[key] : undefined), event) : undefined;
         if (!Array.isArray(arr)) return [];
-        return arr.map((item) => processFormatter(formatter.items, item, service));
+        return arr.map((item) => processFormatterHelper(formatter.items, item, service));
     }
 
     // If this node has a 'format' and a service path, extract the value
@@ -19,16 +19,21 @@ export function processFormatter(formatter: any, event: any, service: string): a
         return undefined;
     }
 
-    // If this node has a service path that is a function, execute it
-    if (service in formatter && typeof formatter[service] === 'function') {
-        const processedData = processFormatter(formatter, event, service);
-        return formatter[service](processedData);
-    }
-
     // Otherwise, recursively process children
     const result: any = {};
     for (const key in formatter) {
-        result[key] = processFormatter(formatter[key], event, service);
+        result[key] = processFormatterHelper(formatter[key], event, service);
     }
     return result;
+}
+
+export function processFormatter(formatter: any, event: any, service: string): any {
+    const formattedData = processFormatterHelper(formatter, event, service);
+    // locate any functions in the formatter and execute them
+    for (const key in formatter) {
+        if (service in formatter[key] && typeof formatter[key][service] === 'function') {
+            formattedData[key] = formatter[key][service](formattedData);
+        }
+    }
+    return formattedData;
 }
