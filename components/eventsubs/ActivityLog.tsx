@@ -75,7 +75,7 @@ export default function ActivityLog() {
     return (
         <>
             <TextBubble>
-                <span>activity log</span>
+                <h2>activity log</h2>
                 <span className="flex row gap-2">
                     <button
                         className="flex row items-center justify-center"

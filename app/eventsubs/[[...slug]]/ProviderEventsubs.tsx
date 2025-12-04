@@ -60,7 +60,7 @@ export default function ProviderEventsubs({ provider }: { provider: keyof typeof
                     />
                 )}
                 <div id="test-events" className={`eventsubs-provider-box modal ${openModal === 'test-events' ? 'open' : ''}`}>
-                    <TextBubble>{provider}: test events</TextBubble>
+                    <TextBubble><h2>{provider}: test events</h2></TextBubble>
                     <div id="test-event-buttons">
                         {Object.entries(providers?.[provider]?.eventsub)?.map(([name, event], i) => (
                             <EventButton
