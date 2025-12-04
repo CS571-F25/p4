@@ -1,19 +1,24 @@
+#widgets {
+    width: 100%;
+}
+
 #widgets p {
     font-size: 18px;
     margin-bottom: 16px;
 }
 
 .widgets-box {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: space-between;
+    --card-width: clamp(160px, 20vw, 240px);
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(var(--card-width), 1fr));
+    justify-items: center;
+    width: 100%;
     gap: 24px;
     margin-bottom: 48px;
 }
 
 .widget-card img {
     border-radius: 16px;
-    width: clamp(160px, 20vw, 240px);
+    width: var(--card-width);
     height: auto;
 }
