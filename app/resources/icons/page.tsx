@@ -74,6 +74,7 @@ export default function IconsPage() {
                     <input
                         type="text"
                         placeholder="search icons or tags"
+                        aria-label="search icons or tags"
                         value={search}
                         onChange={(e) => setSearch(e.target.value)}
                     />
