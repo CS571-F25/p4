@@ -465,6 +465,16 @@ input {
     background-color: var(--provider-color);
 }
 
+.provider-button:focus .provider-badge-inactive {
+    outline: 2px solid var(--text);
+    outline-offset: 4px;
+}
+
+.provider-button:focus .provider-badge svg {
+    stroke: var(--text);
+    stroke-width: 2px;
+}
+
 @keyframes pop-in {
     from {
         transform: translate(-50%, -50%) scale(0.5);
