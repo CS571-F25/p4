@@ -16,15 +16,30 @@ import SVG from '@/components/Svg';
 import Clipboard from '@/components/Clipboard';
 
 function IconCard({ name, tags, matches }: { name: string; tags: string[]; matches: boolean }) {
+    const [copied, setCopied] = useState(false);
+
+    function copyToClipboard() {
+        setCopied(true);
+        setTimeout(() => setCopied(false), 2000);
+    }
+
     function cardWrapper(children: React.ReactNode) {
         return <span className={!matches ? 'hidden' : ''}>{children}</span>;
     }
 
     let baseContent = (
         <Tooltip key={name} text={name}>
-            <Clipboard text={name}>
-                <div key={name} className="icon-item shadow card">
-                    <SVG name={name} />
+            <Clipboard text={name} onClick={copyToClipboard}>
+                <div key={name} className="icon-item shadow card relative">
+                    <SVG
+                        name={name}
+                        className={`icon transition-[opacity_scale] ${copied ? 'opacity-0 scale-0' : 'opacity-100 scale-100'}`}
+                    />
+                    <SVG
+                        name="clipboard-2"
+                        className={`icon transition-[opacity_scale] absolute ${copied ? 'opacity-100 scale-100' : 'opacity-0 scale-0'}`}
+                        aria-hidden="true"
+                    />
                 </div>
             </Clipboard>
         </Tooltip>
