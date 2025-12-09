@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useUser } from '@/contexts/UserContext';
 
 import SVG from '@/components/Svg';
@@ -20,6 +20,16 @@ export default function DataFormModal({
 
     const { data, service, subscription, event } = testData;
     const [currentData, setCurrentData] = useState(testData.data);
+    const modalRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        if (openModal === 'test-event-data' && modalRef.current) {
+            const focusableElements = modalRef.current.querySelectorAll<HTMLElement>('[tabindex]:not([tabindex="-1"])');
+            if (focusableElements.length > 0) {
+                focusableElements[0].focus();
+            }
+        }
+    }, [openModal]);
 
     function submitData() {
         fetch('/api/eventsub/test', {
@@ -45,7 +55,11 @@ export default function DataFormModal({
     }
 
     return (
-        <div id="test-data" className={`eventsubs-provider-box shadow modal ${openModal === 'test-event-data' ? 'open' : ''}`}>
+        <div
+            ref={modalRef}
+            id="test-data"
+            className={`eventsubs-provider-box shadow modal ${openModal === 'test-event-data' ? 'open' : ''}`}
+        >
             <h2>
                 <span>
                     <SVG name={service} tooltip={{ text: `service: ${service}`, location: 'right' }} />
