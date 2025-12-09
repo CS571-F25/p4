@@ -33,17 +33,18 @@ export default function GoalDataBlock({
     return (
         <div className="goal-block fade-in" style={{ '--index': i } as React.CSSProperties}>
             <span className="goal-header">
-                <h3>
+                <label htmlFor={`goal-input-${name}`}>
                     {name
                         .split(/(?=[A-Z])/)
                         .join(' ')
                         .toLowerCase()}
                     {changed && '*'}
-                </h3>
+                </label>
                 <span className="goal-data">
                     <p>{values.total.value.toLocaleString()}</p>
                     <p>/</p>
                     <input
+                        id={`goal-input-${name}`}
                         value={isFocused ? goal : formatNumber(goal)}
                         onFocus={() => setIsFocused(true)}
                         onBlur={() => setIsFocused(false)}
