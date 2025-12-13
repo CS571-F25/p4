@@ -33,6 +33,10 @@ export default function ActivityLog() {
         }));
     };
 
+    const removeEntry = (id: string) => {
+        setActivityLog((prev) => prev.filter((entry) => entry.id !== id));
+    };
+
     const handleKeyDown = (e: React.KeyboardEvent, id: string) => {
         if (e.key === 'Enter' || e.key === ' ') {
             if (!(e.target as HTMLElement).closest('button')) {
@@ -133,9 +137,12 @@ export default function ActivityLog() {
                                         .toLowerCase()}
                                 </p>
                             </span>
-                            <time className="activity-log-timestamp">
-                                {new Date(timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                            </time>
+                            <span className="flex items-center gap-2">
+                                <time className="activity-log-timestamp">
+                                    {new Date(timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                                </time>
+                                <SVG name="mark-x" tooltip={{ text: 'remove this entry', location: 'left' }} onClick={() => removeEntry(id)} />
+                            </span>
                         </span>
                         <ActivityDataBlock data={data} isFirst={true} isCollapsed={collapsed[id]} />
                     </li>
