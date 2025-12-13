@@ -11,9 +11,15 @@
     flex-direction: row;
     align-items: center;
     justify-content: center;
-    gap: 1rem;
+    gap: 2rem;
 
     padding: 1rem;
     background-color: var(--bg-superdark);
     border-radius: 100vh;
+}
+
+.provider-button-wrapper {
+    width: fit-content;
+    padding: 0;
+    background-color: none;
 }
