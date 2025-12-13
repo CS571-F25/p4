@@ -6,10 +6,12 @@ export default function Svg({
     name,
     className,
     tooltip,
+    onClick,
 }: {
     name: string;
     className?: string;
     tooltip?: Omit<React.ComponentProps<typeof Tooltip>, 'children'>;
+    onClick?: () => void;
 }) {
     let icon = icons.find((icon) => icon.name === name)?.svg;
 
@@ -18,7 +20,11 @@ export default function Svg({
     if (!icon) return null;
 
     let svgElement = (
-        <span className={`icon flex items-center justify-center w-fit h-fit ${className}`} dangerouslySetInnerHTML={{ __html: icon }} />
+        <span
+            className={`icon flex items-center justify-center w-fit h-fit ${className}`}
+            dangerouslySetInnerHTML={{ __html: icon }}
+            onClick={onClick}
+        />
     );
     if (tooltip) {
         return <Tooltip {...tooltip}>{svgElement}</Tooltip>;
