@@ -24,6 +24,7 @@ export default function Svg({
             className={`icon flex items-center justify-center w-fit h-fit ${className}`}
             dangerouslySetInnerHTML={{ __html: icon }}
             onClick={onClick}
+            role={onClick ? 'button' : undefined}
         />
     );
     if (tooltip) {
