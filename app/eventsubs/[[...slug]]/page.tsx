@@ -24,7 +24,7 @@ function NoProviderEventsubs() {
                 eventsub refers to subscription to a platforms events. an example is when you connect a twitch account, the
                 widgets can listen for follower, subscriber, and other events.
             </p>
-            <p>select one of your connected services to get started</p>
+            <p>select one of your connected services to get started.</p>
             <div id="provider-container">
                 {Object.entries(providers).map(([provider, { color }], i) => (
                     <ProviderButton
