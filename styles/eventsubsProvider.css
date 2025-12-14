@@ -72,12 +72,16 @@ iframe {
     flex: 1;
 }
 
+#goals,
+#test-events {
+    height: 50%;
+    width: 100%;
+}
+
 .eventsubs-provider-container {
     flex: 0.8;
 
-    flex-direction: row-reverse;
-    flex-wrap: wrap;
-
+    flex-direction: column;
     background-color: transparent;
     padding: 0;
 }
@@ -493,13 +497,6 @@ iframe {
 
 .activity-data-content.collapsed {
     max-height: 0rem;
-}
-
-@media (max-width: 1680px) {
-    .eventsubs-provider-container .eventsubs-provider-box {
-        /* height of a normal box, plus the padding, divided by 2 (two children) minus the gap*/
-        height: calc((100vh - 8rem + 2rem) / 2 - 1rem);
-    }
 }
 
 @media (max-width: 1240px) {
